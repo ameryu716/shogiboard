@@ -9,11 +9,14 @@
 </head>
 <body>
     <div id="wrap">
-        <Shogibox v-bind:rx=rx v-bind:ry=ry v-bind:rz=rz></Shogibox>
+        <Targetpiece></Targetpiece>
+        <Playerpiece></Playerpiece>
+        <Shogibox></Shogibox>
     </div>
     <div id="status">
         default
     </div>
+    
     <script>
         if (navigator.userAgent.indexOf('iPhone') > 0 || navigator.userAgent.indexOf('iPad') > 0 || navigator.userAgent.indexOf('iPod') > 0 || navigator.userAgent.indexOf('Android') > 0) {
             //スマートフォン時に実行したいjs

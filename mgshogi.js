@@ -42,7 +42,7 @@ const shogirend = new Vue({
 
 //jairogameer>>>
 window.addEventListener("load",()=>{
-    let alpha = 0, beta = 0, gamma = 0,coun = 0;
+    let alpha = 0, beta = 0, gamma = 0;
     const statuss = document.getElementById("status");
     const shogibox = document.getElementById("shogibox");
 
@@ -95,9 +95,8 @@ window.addEventListener("load",()=>{
     
 
     const rend = setInterval(()=>{
-        shogibox.style.transform = "rotate3d("+beta+","+gamma+",0,45deg)";
-        statuss.innerText = alpha+","+beta+","+gamma+"default:"+coun;
-        coun++;
+        shogibox.style.transform = "rotate3d("+beta+","+gamma+",0,30deg)";
+        statuss.innerText = alpha+","+beta+","+gamma+"default:";
     },20)
     
 })

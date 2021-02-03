@@ -89,3 +89,10 @@ body {
     transition: 0.3s;
 }
 /* test */
+#status {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border: solid 3px red;
+    padding: 10px;
+}

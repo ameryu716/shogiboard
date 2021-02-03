@@ -42,13 +42,13 @@ const shogirend = new Vue({
 
 //jairogameer>>>
 window.addEventListener("load",()=>{
-    let alpha = 0, beta = 0, gamma = 0;
+    let alpha = 0, beta = 0, gamma = 0,coun = 0;
     const statuss = document.getElementById("status");
     const shogibox = document.getElementById("shogibox");
     
     // ジャイロセンサの値が変化したら実行される deviceorientation イベント
     window.addEventListener("deviceorientation", (e) => {
-        // alpha = e.alpha;  // z軸（表裏）まわりの回転の角度（反時計回りがプラス）
+        alpha = e.alpha;  // z軸（表裏）まわりの回転の角度（反時計回りがプラス）
         beta  = e.beta;   // x軸（左右）まわりの回転の角度（引き起こすとプラス）
         gamma = e.gamma;  // y軸（上下）まわりの回転の角度（右に傾けるとプラス）
     });
@@ -56,10 +56,11 @@ window.addEventListener("load",()=>{
         // shogirend.rx = alpha;
         // shogirend.ry = beta;
         // shogirend.rz = gamma;
-        shogibox.style.transform = "rotate3d("+gamma+","+beta+",0,45deg);"
-        statuss.innerText = alpha+","+beta+","+gamma;
+        shogibox.style.transform = "rotate3d("+beta+","+gamma+","+alpha+","+coun+"deg);"
+        statuss.innerText = alpha+","+beta+","+gamma+"default";
     }
     const rend = setInterval(()=>{
         displayData();
+        coun++;
     },20)
 })

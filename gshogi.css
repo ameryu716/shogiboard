@@ -92,7 +92,7 @@ body {
 /* test */
 #status {
     position: absolute;
-    bottom: 0;
+    bottom: -100px;
     left: 0;
     border: solid 3px red;
     padding: 10px;

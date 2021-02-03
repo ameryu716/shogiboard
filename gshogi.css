@@ -1,16 +1,90 @@
 body {
     overflow: hidden;
 }
+#wrap {
+    width: fit-content;
+    height: fit-content;
+    padding: 10px;
+    margin: 0 auto;
+    position: relative;
+}
 #grid {
     transition: 0.3s;
-    margin: 0 auto;
-    width: 960px;
-    height: 500px;
+    width: 625px;
+    height: 625px;
     display: grid;
-    grid-template-rows: 100px 100px 100px 100px 100px;
-    grid-template-columns: 100px 100px 100px 100px 100px 100px 100px 100px 100px 100px;
+    grid-template-rows: 75px 75px 75px 75px 75px 75px 75px 75px;
+    grid-template-columns: 75px 75px 75px 75px 75px 75px 75px 75px;
+    background-image: url("./woodback.jpg");
+    border: solid 1px gray;
+    padding: 10px;
+    box-sizing: border-box;
 }
-#grid>div {
-    background-color: #000;
-    margin: 3px;
+#grid>div:not(.surface) {
+    border-right: solid #000 2px;
+    border-bottom: solid #000 2px;
 }
+#grid>div:nth-child(1),#grid>div:nth-child(2),#grid>div:nth-child(3),#grid>div:nth-child(4),#grid>div:nth-child(5),#grid>div:nth-child(6),#grid>div:nth-child(7),#grid>div:nth-child(8){
+    border-top: solid 2px #000;
+}
+#grid>div:nth-child(8n+1){
+    border-left: solid 2px #000;
+}
+.surface {
+    position: absolute;
+    background-image: url("./woodback.jpg");
+    border: solid 1px gray;
+}
+#surface2 {
+    top: -52px;
+    left: -1px;
+    width: 624px;
+    height: 50px;
+    
+    transform-origin: bottom;
+    transform: rotateX(90deg);
+}
+#surface3 {
+    top: -3px;
+    left: -52px;
+    width: 50px;
+    height: 624px;
+    
+    transform-origin: right;
+    transform: rotateY(-90deg);
+}
+#surface4 {
+    top: -1px;
+    right: -55px;
+    width: 50px;
+    height: 624px;
+    
+    transform-origin: left;
+    transform: rotateY(90deg);
+}
+#surface5 {
+    bottom: -54px;
+    left: -1px;
+    width: 624px;
+    height: 50px;
+    
+    transform-origin: top;
+    transform: rotateX(-90deg);
+}
+#surface6 {
+    left: -1px;
+    top: -1px;
+    
+    width: 624px;
+    height: 624px;
+    transform: translateZ(-51px);
+}
+
+#shogibox {
+    width: 622px;
+    height: 622px;
+    transform-style: preserve-3d;
+    perspective-origin: 0% 100%;
+    transition: 0.3s;
+}
+/* test */

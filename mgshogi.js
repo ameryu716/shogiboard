@@ -49,7 +49,7 @@ window.addEventListener("load",()=>{
     // ジャイロセンサの値が変化したら実行される deviceorientation イベント
     window.addEventListener("deviceorientation", (e) => {
         alpha = Math.round(e.alpha);  // z軸（表裏）まわりの回転の角度（反時計回りがプラス）
-        beta  = Math.round(e.beta);   // x軸（左右）まわりの回転の角度（引き起こすとプラス）
+        beta  = -1*Math.round(e.beta);   // x軸（左右）まわりの回転の角度（引き起こすとプラス）
         gamma = Math.round(e.gamma);  // y軸（上下）まわりの回転の角度（右に傾けるとプラス）
     });
     function displayData() {

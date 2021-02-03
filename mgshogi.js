@@ -37,31 +37,10 @@ const shogirend = new Vue({
     }
 })
 
-// const box = document.getElementById("grid");
-// let xr = 0;
-// let yr = 0;
-// let zr = 0;
-
-// document.addEventListener('keydown', (event) => {
-//     if(event.key=="z"){
-//         xr++;
-//         zr = zr+5;
-//         // xr = xr +5;
-//     }
-//     if(event.key=="x"){
-//         yr++;
-//         zr = zr+5;
-//         // yr = yr+5;
-//     }
-//     // time = 0;
-// }, false);
-
-
-
-
 
 //jairogameer>>>
 let alpha = 0, beta = 0, gamma = 0;
+const statuss = document.getElementById("status");
  
 // ジャイロセンサの値が変化したら実行される deviceorientation イベント
 window.addEventListener("deviceorientation", (e) => {
@@ -73,6 +52,7 @@ function displayData() {
     shogirend.rx = alpha;
     shogirend.ry = beta;
     shogirend.rz = gamma;
+    statuss.innerText = alpha+","+beta+","+gamma;
 }
 const rend = setInterval(()=>{
     displayData();

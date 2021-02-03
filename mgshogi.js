@@ -49,14 +49,14 @@ window.addEventListener("load",()=>{
     // ジャイロセンサの値が変化したら実行される deviceorientation イベント
     window.addEventListener("deviceorientation", (e) => {
         alpha = Math.round(e.alpha);  // z軸（表裏）まわりの回転の角度（反時計回りがプラス）
-        beta  = -1*Math.round(e.beta);   // x軸（左右）まわりの回転の角度（引き起こすとプラス）
-        gamma = Math.round(e.gamma);  // y軸（上下）まわりの回転の角度（右に傾けるとプラス）
+        beta  = -1*Math.round(e.beta)/30;   // x軸（左右）まわりの回転の角度（引き起こすとプラス）
+        gamma = Math.round(e.gamma)/30;  // y軸（上下）まわりの回転の角度（右に傾けるとプラス）
     });
     function displayData() {
         // shogirend.rx = alpha;
         // shogirend.ry = beta;
         // shogirend.rz = gamma;
-        shogibox.style.transform = "rotate3d("+beta+","+gamma+",0,45deg)";
+        shogibox.style.transform = "rotate3d("+beta+","+gamma+","+alpha+",45deg)";
         statuss.innerText = alpha+","+beta+","+gamma+"default:"+coun;
     }
     const rend = setInterval(()=>{

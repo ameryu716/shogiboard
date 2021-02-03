@@ -6,11 +6,6 @@ const shogiboard = Vue.component("Shogiboard",{
     `
 })
 const shogibox = Vue.component("Shogibox",{
-    props: {
-        rx: Number,
-        ry: Number,
-        rz: Number,
-    },
     template:`
     <div id="shogibox">
         <Shogiboard></Shogiboard>
@@ -25,26 +20,43 @@ const shogibox = Vue.component("Shogibox",{
         "Shogiboard": shogiboard
     }
 })
+const shogipiece = Vue.component("Targetpiece",{
+    template:`
+    <div class="piece" id="target">
+        <div class="surface surface1"><span>玉</span></div>
+        <div class="surface surface2"></div>
+        <div class="surface surface3"></div>
+        <div class="surface surface4"></div>
+        <div class="surface surface5"></div>
+        <div class="surface surface6"></div>
+    </div>`
+}) 
+const playerpiece = Vue.component("Playerpiece",{
+    template:`
+    <div class="piece" id="player">
+        <div class="surface surface1"><span>歩</span></div>
+        <div class="surface surface2"></div>
+        <div class="surface surface3"></div>
+        <div class="surface surface4"></div>
+        <div class="surface surface5"></div>
+        <div class="surface surface6"></div>
+    </div>`
+}) 
+
 const shogirend = new Vue({
     el: '#wrap',
-    data: {
-        rx: 0,
-        ry: 0,
-        rz: 0,
-    },
     components:{
-        "Shogibox": shogibox
+        "Shogibox": shogibox,
+        "Piece":shogipiece,
+        "Playerpiece":playerpiece
     }
 })
 
-//  :style='"transform: rotate3d("+rx+","+ry+",0,"+rz+"deg);"'
 
 
 //jairogameer>>>
 window.addEventListener("load",()=>{
     let alpha = 0, beta = 0, gamma = 0;
-    const statuss = document.getElementById("status");
-    const shogibox = document.getElementById("shogibox");
 
     function deviceOrientation( e ){
         //. 通常の処理を無効にする
@@ -93,10 +105,69 @@ window.addEventListener("load",()=>{
         }
     }
     
+    const box = document.getElementById("wrap");
+    const player = document.getElementById("player");
+    const statuss = document.getElementById("status");
 
-    const rend = setInterval(()=>{
-        shogibox.style.transform = "rotate3d("+beta+","+gamma+",0,30deg)";
-        statuss.innerText = alpha+","+beta+","+gamma+"default:";
-    },20)
-    
+    let playx = 50;
+    let playy = 500;
+    let rendinterval;
+    let ngcontrolinterval;
+    let clearControlinterval;
+
+    function rend(){
+        rendinterval = setInterval(()=>{
+            box.style.transform = "rotate3d("+beta+","+gamma+",0,30deg)";
+            playx = playx + beta;
+            playy = playy - gamma;
+            player.style.left = playx+"px";
+            player.style.top = playy+"px";
+            statuss.innerText = alpha+","+beta+","+gamma+"default:";
+        },20)
+    }
+
+    function Gamereset(){
+        clearInterval(rendinterval);
+        clearInterval(ngcontrolinterval);
+        playx = 50;
+        playy = 500;
+    }//ゲームリセット
+
+    function Gamestart(){
+        rend();
+        ngcontrol();
+        clearControl();
+    }//ゲームスタート
+
+    function Gameover(){
+        Gamereset();
+        alert("はみ出してしまった！！");
+        // 再スタート
+        setTimeout(() => {
+            Gamestart();
+        }, 500);
+    }//ゲームオーバー
+
+    function Gameclear(){
+        Gamereset();
+        alert("クリア！！敵を倒しました。");
+    }
+
+    function ngcontrol(){
+        ngcontrolinterval = setInterval(()=>{
+            if(playx > 700||playy > 700||playx<-100||playy<-100){
+                Gameover();
+            }
+        },20)
+    }//ゲームオーバー監視
+
+    function clearControl(){
+        clearControlinterval = setInterval(() => {
+            if(playx>280&&playx<290&&playy>10&&playy<20){
+                Gameclear();
+            }
+        }, 20);
+    }//ゲームクリア監視
+
+    Gamestart();
 })

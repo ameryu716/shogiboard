@@ -12,7 +12,7 @@ const shogibox = Vue.component("Shogibox",{
         rz: Number,
     },
     template:`
-    <div id="shogibox" :style='"transform: rotate3d("+rx+","+ry+",0,"+rz+"deg);"'>
+    <div id="shogibox">
         <Shogiboard></Shogiboard>
         <div class="surface" id="surface2"></div>
         <div class="surface" id="surface3"></div>
@@ -37,23 +37,29 @@ const shogirend = new Vue({
     }
 })
 
+//  :style='"transform: rotate3d("+rx+","+ry+",0,"+rz+"deg);"'
+
 
 //jairogameer>>>
-let alpha = 0, beta = 0, gamma = 0;
-const statuss = document.getElementById("status");
- 
-// ジャイロセンサの値が変化したら実行される deviceorientation イベント
-window.addEventListener("deviceorientation", (e) => {
-    alpha = e.alpha;  // z軸（表裏）まわりの回転の角度（反時計回りがプラス）
-    beta  = e.beta;   // x軸（左右）まわりの回転の角度（引き起こすとプラス）
-    gamma = e.gamma;  // y軸（上下）まわりの回転の角度（右に傾けるとプラス）
-});
-function displayData() {
-    shogirend.rx = alpha;
-    shogirend.ry = beta;
-    shogirend.rz = gamma;
-    statuss.innerText = alpha+","+beta+","+gamma;
-}
-const rend = setInterval(()=>{
-    displayData();
-},20)
+window.addEventListener("load",()=>{
+    let alpha = 0, beta = 0, gamma = 0;
+    const statuss = document.getElementById("status");
+    const shogibox = document.getElementById("shogibox");
+    
+    // ジャイロセンサの値が変化したら実行される deviceorientation イベント
+    window.addEventListener("deviceorientation", (e) => {
+        alpha = e.alpha;  // z軸（表裏）まわりの回転の角度（反時計回りがプラス）
+        beta  = e.beta;   // x軸（左右）まわりの回転の角度（引き起こすとプラス）
+        gamma = e.gamma;  // y軸（上下）まわりの回転の角度（右に傾けるとプラス）
+    });
+    function displayData() {
+        // shogirend.rx = alpha;
+        // shogirend.ry = beta;
+        // shogirend.rz = gamma;
+        shogibox.style.transform = "rotate3d("+alpha+","+beta+",0,"+gamma+"deg);"
+        statuss.innerText = alpha+","+beta+","+gamma;
+    }
+    const rend = setInterval(()=>{
+        displayData();
+    },20)
+})

@@ -40,6 +40,7 @@ const shogirend = new Vue({
 })
 
 const box = document.getElementById("grid");
+const statuss = document.getElementById("status");
 let xr = 0;
 let yr = 0;
 let zr = 0;
@@ -94,6 +95,7 @@ function rend(){
         shogirend.rx = xr;
         shogirend.ry = yr;
         shogirend.rz = zr;
+        statuss.innerText = xr+","+yr+","+zr;
     },20)
 }
 rend();
@@ -105,4 +107,4 @@ setInterval(() => {
     if(yr>0){
         yr--;
     }
-}, 100);
+}, 250);

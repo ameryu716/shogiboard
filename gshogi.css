@@ -1,0 +1,16 @@
+body {
+    overflow: hidden;
+}
+#grid {
+    transition: 0.3s;
+    margin: 0 auto;
+    width: 960px;
+    height: 500px;
+    display: grid;
+    grid-template-rows: 100px 100px 100px 100px 100px;
+    grid-template-columns: 100px 100px 100px 100px 100px 100px 100px 100px 100px 100px;
+}
+#grid>div {
+    background-color: #000;
+    margin: 3px;
+}

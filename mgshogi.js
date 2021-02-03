@@ -56,8 +56,8 @@ window.addEventListener("load",()=>{
         // shogirend.rx = alpha;
         // shogirend.ry = beta;
         // shogirend.rz = gamma;
-        shogibox.style.transform = "rotate3d("+beta+","+gamma+",0,45deg);"
-        statuss.innerText = alpha+","+beta+","+gamma+"default";
+        shogibox.style.transform = "rotate3d(1,1,1,45deg);"
+        statuss.innerText = alpha+","+beta+","+gamma+"defaultcoun:"+coun;
     }
     const rend = setInterval(()=>{
         displayData();

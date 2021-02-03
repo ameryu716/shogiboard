@@ -45,7 +45,7 @@ window.addEventListener("load",()=>{
     let alpha = 0, beta = 0, gamma = 0,coun = 0;
     const statuss = document.getElementById("status");
     const shogibox = document.getElementById("shogibox");
-    alert(statuss);
+    
     // ジャイロセンサの値が変化したら実行される deviceorientation イベント
     window.addEventListener("deviceorientation", (e) => {
         alpha = Math.round(e.alpha);  // z軸（表裏）まわりの回転の角度（反時計回りがプラス）
@@ -56,8 +56,8 @@ window.addEventListener("load",()=>{
         // shogirend.rx = alpha;
         // shogirend.ry = beta;
         // shogirend.rz = gamma;
-        shogibox.style.transform = "rotate3d(1,1,1,45deg);"
-        statuss.innerText = alpha+","+beta+","+gamma+"defaultcoun:"+coun;
+        shogibox.style.transform = "rotate3d("+beta+","+gamma+",0,45deg)";
+        statuss.innerText = alpha+","+beta+","+gamma+"default:"+coun;
     }
     const rend = setInterval(()=>{
         displayData();

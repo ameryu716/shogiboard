@@ -41,7 +41,7 @@ const shogirend = new Vue({
 
 
 //jairogameer>>>
-// window.addEventListener("load",()=>{
+window.addEventListener("load",()=>{
     let alpha = 0, beta = 0, gamma = 0,coun = 0;
     const statuss = document.getElementById("status");
     const shogibox = document.getElementById("shogibox");
@@ -63,4 +63,4 @@ const shogirend = new Vue({
         displayData();
         coun++;
     },20)
-// })
+})

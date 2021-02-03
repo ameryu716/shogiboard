@@ -41,11 +41,11 @@ const shogirend = new Vue({
 
 
 //jairogameer>>>
-window.addEventListener("load",()=>{
+// window.addEventListener("load",()=>{
     let alpha = 0, beta = 0, gamma = 0,coun = 0;
     const statuss = document.getElementById("status");
     const shogibox = document.getElementById("shogibox");
-    
+    alert(statuss);
     // ジャイロセンサの値が変化したら実行される deviceorientation イベント
     window.addEventListener("deviceorientation", (e) => {
         alpha = Math.round(e.alpha);  // z軸（表裏）まわりの回転の角度（反時計回りがプラス）
@@ -63,4 +63,4 @@ window.addEventListener("load",()=>{
         displayData();
         coun++;
     },20)
-})
+// })

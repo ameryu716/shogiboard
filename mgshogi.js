@@ -1,7 +1,7 @@
 const shogiboard = Vue.component("Shogiboard",{
     template:`
     <div id="grid">
-        <div v-for="n in 64" :class="'grid'+n"></div>
+        <div v-for="n in 81" :class="'grid'+n"></div>
     </div>
     `
 })
@@ -109,8 +109,8 @@ window.addEventListener("load",()=>{
     const player = document.getElementById("player");
     const statuss = document.getElementById("status");
 
-    let playx = 50;
-    let playy = 500;
+    let playx = 25;
+    let playy = 318;
     let rendinterval;
     let ngcontrolinterval;
     let clearControlinterval;
@@ -129,8 +129,8 @@ window.addEventListener("load",()=>{
     function Gamereset(){
         clearInterval(rendinterval);
         clearInterval(ngcontrolinterval);
-        playx = 50;
-        playy = 500;
+        playx = 25;
+        playy = 318;
     }//ゲームリセット
 
     function Gamestart(){
@@ -155,7 +155,7 @@ window.addEventListener("load",()=>{
 
     function ngcontrol(){
         ngcontrolinterval = setInterval(()=>{
-            if(playx > 650||playy > 650||playx<-50||playy<-50){
+            if(playx > 400||playy > 400||playx<-50||playy<-50){
                 Gameover();
             }
         },20)
@@ -163,7 +163,7 @@ window.addEventListener("load",()=>{
 
     function clearControl(){
         clearControlinterval = setInterval(() => {
-            if(playx>280&&playx<290&&playy>10&&playy<20){
+            if(playx>165&&playx<180&&playy>15&&playy<30){
                 Gameclear();
             }
         }, 20);

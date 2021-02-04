@@ -1,7 +1,7 @@
 const shogiboard = Vue.component("Shogiboard",{
     template:`
     <div id="grid">
-        <div v-for="n in 64" :class="'grid'+n"></div>
+        <div v-for="n in 81" :class="'grid'+n"></div>
     </div>
     `
 })
@@ -106,7 +106,6 @@ function rend(){
         statuss.innerText = xr+","+yr+",default:";
     },20)
 }
-
 function Gamereset(){
     clearInterval(rendinterval);
     clearInterval(ngcontrolinterval);

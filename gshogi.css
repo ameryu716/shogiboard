@@ -107,7 +107,7 @@ body {
     height: 100px;
     transform-style: preserve-3d;
     perspective-origin: center;
-    transition: 0.3s;
+    transition: 0.1s;
     position: absolute;
     transform: translateZ(12px);
 }
@@ -123,6 +123,7 @@ body {
     font-size: 42px;
     font-family: serif;
     font-weight: bold;
+    border: none;
 }
 /* 上面 */
 .surface2{

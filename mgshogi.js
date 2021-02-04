@@ -155,7 +155,7 @@ window.addEventListener("load",()=>{
 
     function ngcontrol(){
         ngcontrolinterval = setInterval(()=>{
-            if(playx > 700||playy > 700||playx<-100||playy<-100){
+            if(playx > 650||playy > 650||playx<-50||playy<-50){
                 Gameover();
             }
         },20)

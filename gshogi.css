@@ -183,8 +183,8 @@ body {
     transform: translateZ(-11px);
 }
 #target {
-    top: 3%;
-    left: 45%;
+    top: 15px;
+    left: 10px;
 }
 #player {
     top: 500px;

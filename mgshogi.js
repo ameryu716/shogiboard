@@ -145,6 +145,7 @@ window.addEventListener("load",()=>{
     function Gamestart(isstart){
         if(isstart||isstart == undefined){
             targetset();
+            // 敵移動
         }
         rend();
         ngcontrol();

@@ -54,12 +54,15 @@ const shogirend = new Vue({
 
 const box = document.getElementById("wrap");
 const player = document.getElementById("player");
+const target = document.getElementById("target");
 const statuss = document.getElementById("status");
 
 let xr = 0;
 let yr = 0;
 let playx = 50;
 let playy = 500;
+let targetx = 0;
+let clearcount = 0;
 // let zr = 0;
 let rendinterval;
 let ngcontrolinterval;
@@ -96,6 +99,12 @@ document.addEventListener('keyup', (event) => {
     }
 }, false);
 
+function targetset(){
+    targetx = Math.floor(Math.random()*551+10);
+    target.style.left = targetx+"px";
+    // 9~336 random
+}
+
 function rend(){
     rendinterval = setInterval(()=>{
         box.style.transform = "rotate3d("+yr+","+xr+",0,30deg)";
@@ -103,7 +112,7 @@ function rend(){
         playy = playy - yr;
         player.style.left = playx+"px";
         player.style.top = playy+"px";
-        statuss.innerText = xr+","+yr+",default:";
+        statuss.innerText = xr+","+yr+"クリア回数:"+clearcount;
     },20)
 }
 function Gamereset(){
@@ -115,7 +124,12 @@ function Gamereset(){
     playy = 500;
 }//ゲームリセット
 
-function Gamestart(){
+function Gamestart(isstart){
+    if(isstart||isstart == undefined){
+        targetset();
+        console.log("敵移動します");
+        //敵移動
+    }
     rend();
     ngcontrol();
     clearControl();
@@ -126,13 +140,17 @@ function Gameover(){
     alert("はみ出してしまった！！");
     // 再スタート
     setTimeout(() => {
-        Gamestart();
+        Gamestart(false);
     }, 500);
 }//ゲームオーバー
 
 function Gameclear(){
     Gamereset();
     alert("クリア！！敵を倒しました。");
+    clearcount++;
+    setTimeout(() => {
+        Gamestart();
+    }, 500);
 }
 
 function ngcontrol(){
@@ -145,7 +163,7 @@ function ngcontrol(){
 
 function clearControl(){
     clearControlinterval = setInterval(() => {
-        if(playx>280&&playx<290&&playy>10&&playy<20){
+        if(playx>targetx-5&&playx<targetx+5&&playy>10&&playy<20){
             Gameclear();
         }
     }, 20);

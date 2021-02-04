@@ -264,7 +264,7 @@ body {
     .piece {
         width: 25px;
         height: 33px;
-        transform: translateZ(5px);
+        transform: translateZ(6px);
     }
     .surface1{
         width: 25px;

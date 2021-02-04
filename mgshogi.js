@@ -118,8 +118,8 @@ window.addEventListener("load",()=>{
     function rend(){
         rendinterval = setInterval(()=>{
             box.style.transform = "rotate3d("+beta+","+gamma+",0,30deg)";
-            playx = playx + gamma;
-            playy = playy - beta;
+            playx = playx + 2*gamma;
+            playy = playy - 2*beta;
             player.style.left = playx+"px";
             player.style.top = playy+"px";
             statuss.innerText = alpha+","+beta+","+gamma+"default:";

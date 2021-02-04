@@ -116,6 +116,8 @@ body {
 }
 #target .surface {
     border-color: crimson;
+    border-width: 5px;
+    box-sizing: border-box;
 }
 .surface1 span {
     display: block;
@@ -124,6 +126,13 @@ body {
     font-family: serif;
     font-weight: bold;
     border: none;
+}
+#target .surface1 span {
+    padding: 14px 5px;
+}
+.surface1 {
+    height: 100px;
+    width: 60px;
 }
 /* 上面 */
 .surface2{
@@ -324,5 +333,11 @@ body {
     #player {
         top: 318px;
         left: 25px;
+    }
+    #target .surface {
+        border-width: 1px;
+    }
+    #target .surface1 span {
+        padding: 5px 3px;
     }
 }

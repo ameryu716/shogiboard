@@ -107,13 +107,22 @@ window.addEventListener("load",()=>{
     
     const box = document.getElementById("wrap");
     const player = document.getElementById("player");
+    const target = document.getElementById("target");
     const statuss = document.getElementById("status");
 
     let playx = 25;
     let playy = 318;
+    let targetx = 0;
+    let clearcount = 0;
     let rendinterval;
     let ngcontrolinterval;
     let clearControlinterval;
+
+    function targetset(){
+        targetx = Math.floor(Math.random()*327+9);
+        target.style.left = targetx+"px";
+        // 9~336 random
+    }
 
     function rend(){
         rendinterval = setInterval(()=>{
@@ -122,7 +131,7 @@ window.addEventListener("load",()=>{
             playy = playy - 2*beta;
             player.style.left = playx+"px";
             player.style.top = playy+"px";
-            statuss.innerText = alpha+","+beta+","+gamma+"default:";
+            statuss.innerText = alpha+","+beta+","+gamma+"クリア回数:"+clearcount;
         },20)
     }
 
@@ -133,7 +142,10 @@ window.addEventListener("load",()=>{
         playy = 318;
     }//ゲームリセット
 
-    function Gamestart(){
+    function Gamestart(isstart){
+        if(isstart||isstart == undefined){
+            targetset();
+        }
         rend();
         ngcontrol();
         clearControl();
@@ -144,13 +156,17 @@ window.addEventListener("load",()=>{
         alert("はみ出してしまった！！");
         // 再スタート
         setTimeout(() => {
-            Gamestart();
+            Gamestart(false);
         }, 500);
     }//ゲームオーバー
 
     function Gameclear(){
         Gamereset();
         alert("クリア！！敵を倒しました。");
+        clearcount++;
+        setTimeout(() => {
+            Gamestart();
+        }, 500);
     }
 
     function ngcontrol(){
@@ -163,7 +179,7 @@ window.addEventListener("load",()=>{
 
     function clearControl(){
         clearControlinterval = setInterval(() => {
-            if(playx>168&&playx<178&&playy>18&&playy<28){
+            if(playx>targetx-5&&playx<targetx+5&&playy>18&&playy<28){
                 Gameclear();
             }
         }, 20);

@@ -23,23 +23,25 @@ const shogibox = Vue.component("Shogibox",{
 const shogipiece = Vue.component("Targetpiece",{
     template:`
     <div class="piece" id="target">
-        <div class="surface surface1"><span>玉</span></div>
+        <div class="surface surface1"><span>玉<br>将</span></div>
         <div class="surface surface2"></div>
         <div class="surface surface3"></div>
         <div class="surface surface4"></div>
         <div class="surface surface5"></div>
         <div class="surface surface6"></div>
+        <div class="surface surface7"></div>
     </div>`
 }) 
 const playerpiece = Vue.component("Playerpiece",{
     template:`
     <div class="piece" id="player">
-        <div class="surface surface1"><span>歩</span></div>
+        <div class="surface surface1"><span>歩<br>兵</span></div>
         <div class="surface surface2"></div>
         <div class="surface surface3"></div>
         <div class="surface surface4"></div>
         <div class="surface surface5"></div>
         <div class="surface surface6"></div>
+        <div class="surface surface7"></div>
     </div>`
 }) 
 

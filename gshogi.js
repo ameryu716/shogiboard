@@ -54,124 +54,237 @@ const shogirend = new Vue({
     }
 })
 
+const startdiv =  document.getElementById("startdiv");
+const startbtn = document.getElementById("startbtn");
 const box = document.getElementById("wrap");
 const player = document.getElementById("player");
 const target = document.getElementById("target");
 const statuss = document.getElementById("status");
 const goalfield = document.getElementById("field");
+const lifefield = document.getElementById("life");
 
-let xr = 0;
-let yr = 0;
-let playx = 50;
-let playy = 500;
 let targetx = 0;
-let clearcount = 0;
-let rendinterval;
-let ngcontrolinterval;
-let clearControlinterval;
+let targety = 0;
 
-document.addEventListener('keydown', (event) => {
-    if(event.key == "Right" || event.key == "ArrowRight"){
-        xr = xr+5;
-    }
-    if(event.key == "Left" || event.key == "ArrowLeft"){
-        xr = xr-5;
-    }
-    if(event.key == "Up" || event.key == "ArrowUp"){
-        yr = yr+5;
-        event.preventDefault();
-    }
-    if(event.key == "Down" || event.key == "ArrowDown"){
-        yr = yr-5;
-        event.preventDefault();
-    }
-    // time = 0;
-}, false);
-
-document.addEventListener('keyup', (event) => {
-    if(event.key == "Right" || event.key == "ArrowRight"){
-        xr = 0;
-    }
-    if(event.key == "Left" || event.key == "ArrowLeft"){
-        xr = 0;
-    }
-    if(event.key == "Up" || event.key == "ArrowUp"){
-        yr = 0;
-    }
-    if(event.key == "Down" || event.key == "ArrowDown"){
-        yr = 0;
-    }
-}, false);
-
-function targetset(){
-    targetx = Math.floor(Math.random()*551+10);
-    target.style.left = targetx+"px";
-    goalfield.style.left = targetx-27+"px";
-    // 9~336 random
+startbtn.onclick = ()=>{
+    startdiv.style.display = "none";
+    new GameAllControl();
+    new EnemyAI();
 }
 
-function rend(){
-    rendinterval = setInterval(()=>{
-        box.style.transform = "rotate3d("+yr+","+xr+",0,30deg)";
-        playx = playx + xr;
-        playy = playy - yr;
-        player.style.left = playx+"px";
-        player.style.top = playy+"px";
-        statuss.innerText = xr+","+yr+"クリア回数:"+clearcount;
-    },20)
-}
-function Gamereset(){
-    clearInterval(rendinterval);
-    clearInterval(ngcontrolinterval);
-    xr = 0;
-    yr = 0;
-    playx = 50;
-    playy = 500;
-}//ゲームリセット
-
-function Gamestart(isstart){
-    if(isstart||isstart == undefined){
-        targetset();
-        console.log("敵移動します");
-        //敵移動
+class GameAllControl{
+    constructor(){
+        this.xr = 0;
+        this.yr = 0;
+        this.playx = 50;
+        this.playy = 500;
+        this.clearcount = 0;
+        this.rendinterval;
+        this.ngcontrolinterval;
+        this.clearControlinterval;
+        this.keystop = false;
+        this.life = 3;
+        this.LifeAndDisplaySet();
+        this.keyEventSet();
+        this.GameReStart();
     }
-    rend();
-    ngcontrol();
-    clearControl();
-}//ゲームスタート
-
-function Gameover(){
-    Gamereset();
-    alert("はみ出してしまった！！");
-    // 再スタート
-    setTimeout(() => {
-        Gamestart(false);
-    }, 500);
-}//ゲームオーバー
-
-function Gameclear(){
-    Gamereset();
-    alert("クリア！！敵を倒しました。");
-    clearcount++;
-    setTimeout(() => {
-        Gamestart();
-    }, 500);
-}
-
-function ngcontrol(){
-    ngcontrolinterval = setInterval(()=>{
-        if(playx > 700||playy > 700||playx<-100||playy<-100){
-            Gameover();
+    LifeAndDisplaySet(){
+        for(let i=0;i<this.life;i++){
+            let newlife = new Image();
+            newlife.src = "./hart.png";
+            lifefield.appendChild(newlife);
         }
-    },20)
-}//ゲームオーバー監視
-
-function clearControl(){
-    clearControlinterval = setInterval(() => {
-        if(playx>targetx-10&&playx<targetx+10&&playy>3&&playy<21){
-            Gameclear();
+        player.style.display = "block";
+        target.style.display = "block";
+        goalfield.style.display = "block";
+    }
+    keyEventSet(){
+        document.addEventListener('keydown', (event) => {
+            if(!this.keystop){
+                if(event.key == "Right" || event.key == "ArrowRight"){
+                    this.xr = 5;
+                }
+                if(event.key == "Left" || event.key == "ArrowLeft"){
+                    this.xr = -5;
+                }
+                if(event.key == "Up" || event.key == "ArrowUp"){
+                    this.yr = 5;
+                    event.preventDefault();
+                }
+                if(event.key == "Down" || event.key == "ArrowDown"){
+                    this.yr = -5;
+                    event.preventDefault();
+                }
+                // time = 0;
+            }
+        }, false);
+        document.addEventListener('keyup', (event) => {
+            if(!this.keystop){
+                if(event.key == "Right" || event.key == "ArrowRight"){
+                    this.xr = 0;
+                }
+                if(event.key == "Left" || event.key == "ArrowLeft"){
+                    this.xr = 0;
+                }
+                if(event.key == "Up" || event.key == "ArrowUp"){
+                    this.yr = 0;
+                }
+                if(event.key == "Down" || event.key == "ArrowDown"){
+                    this.yr = 0;
+                }
+            }
+        }, false);
+    }
+    targetset(){
+        targetx = Math.floor(Math.random()*551+10);
+        target.style.left = targetx+"px";
+        targety = Math.floor(Math.random()*551+10);
+        target.style.top = targety+"px";
+        // 9~336 random
+    }
+    rend(){
+        this.rendinterval = setInterval(()=>{
+            box.style.transform = "rotate3d("+this.yr+","+this.xr+",0,30deg)";
+            this.playx = this.playx + this.xr;
+            this.playy = this.playy - this.yr;
+            player.style.left = this.playx+"px";
+            player.style.top = this.playy+"px";
+            if(this.playx > 650||this.playy > 650||this.playx<-100||this.playy<-100){
+                this.life--;
+                if(this.life == 0){
+                    this.GameEnd();
+                }else{
+                    this.Gameover();
+                }
+                return;
+            }//場外
+            if(this.playx>targetx-10&&this.playx<targetx+10&&this.playy>targety-10&&this.playy<targety+10){
+                this.Gameclear();
+                return;
+            }//クリア
+            statuss.innerText = this.xr+","+this.yr+"クリア回数:"+this.clearcount;
+        },20)
+    }
+    Gamereset(){
+        clearInterval(this.rendinterval);
+        this.xr = 0;
+        this.yr = 0;
+        this.playx = 50;
+        this.playy = 500;
+    }//ゲームリセット
+    GameEnd(){
+        this.Gamereset();
+        setTimeout(() => {
+            this.xr = 0;
+            this.yr = 0;
+            lifefield.removeChild(lifefield.lastChild);
+            alert("あなたの負けです。家へお帰り。");
+            target.style.display = "none";
+            goalfield.style.display = "none";
+            player.style.display = "none";
+            box.style.transform = "rotate3d("+0+","+0+",0,30deg)";
+            startdiv.style.display = "block";
+            return;
+        }, 500);
+    }
+    GameReStart(isstart){
+        if(isstart||isstart == undefined){
+            this.targetset();
+            console.log("敵移動します");
+            //敵移動
         }
-    }, 20);
-}//ゲームクリア監視
+        this.rend();
+        this.keystop = false;
+    }//ゲームスタート
+    Gameover(){
+        this.keystop = true;
+        this.Gamereset();
+        alert("はみ出してしまった！！");
+        lifefield.removeChild(lifefield.lastChild);
+        // 再スタート
+        setTimeout(() => {
+            this.GameReStart(false);
+        }, 500);
+    }//ゲームオーバー
+    Gameclear(){
+        this.Gamereset();
+        alert("クリア！！敵を倒しました。");
+        this.clearcount++;
+        setTimeout(() => {
+            this.GameReStart();
+        }, 500);
+    }
+}
 
-Gamestart();
+class EnemyAI{
+    constructor(){
+        this.move();
+    }
+    directionDice(){
+        return Math.floor(Math.random()*8)+1;//return 1~8
+    }
+    move(){
+        setInterval(() => {
+            switch(this.directionDice()){
+                case 1:
+                    if(targety<50){
+                        break;
+                    }
+                    targety-=30;
+                    break;
+                case 2:
+                    if(targetx>500||targety<50){
+                        break;
+                    }
+                    targety-=30;
+                    targetx+=30;
+                    break;
+                case 3:
+                    if(targetx>500){
+                        break;
+                    }
+                    targetx+=30;
+                    break;
+                case 4:
+                    if(targetx>500||targety>500){
+                        break;
+                    }
+                    targetx+=30;
+                    targety+=30;
+                    break;
+                case 5:
+                    if(targety>500){
+                        break;
+                    }
+                    targety+=30;
+                    break;
+                case 6:
+                    if(targetx<50||targety>500){
+                        break;
+                    }
+                    targetx-=30;
+                    targety+=30;
+                    break;
+                case 7:
+                    if(targetx<50){
+                        break;
+                    }
+                    targetx-=30;
+                    break;
+                case 8:
+                    if(targetx<50||targety<50){
+                        break;
+                    }
+                    targetx-=30;
+                    targety-=30;
+                    break;
+                default:
+                    console.log(this.directionDice());
+            }
+            target.style.top = targety+"px";
+            target.style.left = targetx+"px";
+            goalfield.style.left = targetx-27+"px";
+            goalfield.style.top = targety-12+"px";
+        }, 50);
+    }
+}

@@ -55,21 +55,57 @@ const shogirend = new Vue({
 })
 
 
+const startdiv =  document.getElementById("startdiv");
+const startbtn = document.getElementById("startbtn");
+const box = document.getElementById("wrap");
+const player = document.getElementById("player");
+const target = document.getElementById("target");
+const statuss = document.getElementById("status");
+const goalfield = document.getElementById("field");
+const lifefield = document.getElementById("life");
 
-//jairogameer>>>
-window.addEventListener("load",()=>{
-    let alpha = 0, beta = 0, gamma = 0;
+let targetx = 0;
+let targety = 0;
 
-    function deviceOrientation( e ){
+startbtn.onclick = ()=>{
+    startdiv.style.display = "none";
+    new GameAllControl();
+    new EnemyAI();
+}
+
+class GameAllControl{
+    constructor(){
+        this.alpha = 0;
+        this.beta = 0;
+        this.gamma = 0;
+        this.playx = 25;
+        this.playy = 318;
+        this.clearcount = 0;
+        this.rendinterval;
+        this.life = 3;
+        this.LifeAndDisplaySet();
+        this.DeviceGyroEventSet();
+        this.GameReStart();
+    }
+    LifeAndDisplaySet(){
+        for(let i=0;i<this.life;i++){
+            let newlife = new Image();
+            newlife.src = "./hart.png";
+            lifefield.appendChild(newlife);
+        }
+        player.style.display = "block";
+        target.style.display = "block";
+        goalfield.style.display = "block";
+    }
+    deviceOrientation(e){
         //. 通常の処理を無効にする
         e.preventDefault();
         //. スマホの向きを取得
-        alpha = Math.round(e.alpha);  // z軸（表裏）まわりの回転の角度（反時計回りがプラス）
-        beta  = -1*Math.round(e.beta/5);   // x軸（左右）まわりの回転の角度（引き起こすとプラス）
-        gamma = Math.round(e.gamma/5);  // y軸（上下）まわりの回転の角度（右に傾けるとプラス）
+        this.alpha = Math.round(e.alpha);  // z軸（表裏）まわりの回転の角度（反時計回りがプラス）
+        this.beta  = -1*Math.round(e.beta/5);   // x軸（左右）まわりの回転の角度（引き起こすとプラス）
+        this.gamma = Math.round(e.gamma/5);  // y軸（上下）まわりの回転の角度（右に傾けるとプラス）
     }
-    
-    function ClickRequestDeviceSensor(){
+    ClickRequestDeviceSensor(){
         //. ユーザーに「許可」を求めるダイアログを表示
         DeviceOrientationEvent.requestPermission().then( function( response ){
             if( response === 'granted' ){
@@ -82,113 +118,180 @@ window.addEventListener("load",()=>{
             console.log( e );
         });
     }
-        
-    //. DeviceOrientationEvent オブジェクトが有効な環境か？　をチェック
-    if( window.DeviceOrientationEvent ){
-        //. iOS13 以上であれば DeviceOrientationEvent.requestPermission 関数が定義されているので、ここで条件分岐
-        if( DeviceOrientationEvent.requestPermission && typeof DeviceOrientationEvent.requestPermission === 'function' ){
-            //. iOS 13 以上の場合、
-            //. 画面上部に「センサーの有効化」ボタンを追加
-            const banner = document.createElement("div");
-            banner.style.zIndex = "1";
-            banner.style.position = "absolute"; 
-            banner.style.width = "100%";
-            banner.style.backgroundColor="#000";
-            banner.onclick = ()=>{
-                ClickRequestDeviceSensor();
+    DeviceGyroEventSet(){
+        //. DeviceOrientationEvent オブジェクトが有効な環境か？　をチェック
+        if( window.DeviceOrientationEvent ){
+            //. iOS13 以上であれば DeviceOrientationEvent.requestPermission 関数が定義されているので、ここで条件分岐
+            if( DeviceOrientationEvent.requestPermission && typeof DeviceOrientationEvent.requestPermission === 'function' ){
+                //. iOS 13 以上の場合、
+                //. 画面上部に「センサーの有効化」ボタンを追加
+                // const banner = document.createElement("div");
+                // banner.style.zIndex = "1";
+                // banner.style.position = "absolute"; 
+                // banner.style.width = "100%";
+                // banner.style.backgroundColor="#000";
+                // banner.onclick = ()=>{
+                //     ClickRequestDeviceSensor();
+                // }
+                // banner.id = "sensorrequest";
+                // banner.innerHTML = "<p style='color: rgb(0, 0, 255);'>センサーの有効化</p>";
+                // document.body.appendChild(banner);
+                if(confirm("「将棋ジャイロ」がジャイロセンサーへのアクセスを要求しています。許可してよろしいですか？（許可しないとゲームが遊べません。）")){
+                    this.ClickRequestDeviceSensor();
+                }else{
+                    alert("ゲームが遊べません。リセットする場合はページをもう一度読み込んでください。");
+                }
+            }else{
+                //. Android または iOS 13 未満の場合、
+                //. DeviceOrientationEvent オブジェクトが有効な場合のみ、deviceorientation イベント発生時に deviceOrientaion 関数がハンドリングするよう登録
+                window.addEventListener("deviceorientation", this.deviceOrientation);
             }
-            banner.id = "sensorrequest";
-            banner.innerHTML = "<p style='color: rgb(0, 0, 255);'>センサーの有効化</p>";
-            document.body.appendChild(banner);
-        }else{
-            //. Android または iOS 13 未満の場合、
-            //. DeviceOrientationEvent オブジェクトが有効な場合のみ、deviceorientation イベント発生時に deviceOrientaion 関数がハンドリングするよう登録
-            window.addEventListener( "deviceorientation", deviceOrientation );
         }
     }
-    
-    const box = document.getElementById("wrap");
-    const player = document.getElementById("player");
-    const target = document.getElementById("target");
-    const goalfield = document.getElementById("field");
-    const statuss = document.getElementById("status");
-
-    let playx = 25;
-    let playy = 318;
-    let targetx = 0;
-    let clearcount = 0;
-    let rendinterval;
-    let ngcontrolinterval;
-    let clearControlinterval;//使われてるよ！！
-
-    function targetset(){
+    targetset(){
         targetx = Math.floor(Math.random()*327+9);
-        target.style.left = targetx+"px";
-        goalfield.style.left = targetx-17+"px";
+        target.style.left = targetx-17+"px";
+        targety = Math.floor(Math.random()*327+9);
+        target.style.top = targety-17+"px";
         // 9~336 random
     }
-
-    function rend(){
-        rendinterval = setInterval(()=>{
-            box.style.transform = "rotate3d("+beta+","+gamma+",0,30deg)";
-            playx = playx + 2*gamma;
-            playy = playy - 2*beta;
-            player.style.left = playx+"px";
-            player.style.top = playy+"px";
-            statuss.innerText = alpha+","+beta+","+gamma+"クリア回数:"+clearcount;
+    rend(){
+        this.rendinterval = setInterval(()=>{
+            box.style.transform = "rotate3d("+this.beta+","+this.gamma+",0,30deg)";
+            this.playx = this.playx +2*this.gamma;
+            this.playy = this.playy -2*this.beta;
+            player.style.left = this.playx+"px";
+            player.style.top = this.playy+"px";
+            if(this.playx > 400||this.playy > 400||this.playx<-50||this.playy<-50){
+                this.life--;
+                if(this.life == 0){
+                    this.GameEnd();
+                }else{
+                    this.Gameover();
+                }
+                return;
+            }//場外
+            if(this.playx>targetx-10&&this.playx<targetx+10&&this.playy>targety-10&&this.playy<targety+10){
+                this.Gameclear();
+                return;
+            }//クリア
+            statuss.innerText = this.alpha+","+this.beta+","+this.gamma+"クリア回数:"+this.clearcount;
         },20)
     }
-
-    function Gamereset(){
-        clearInterval(rendinterval);
-        clearInterval(ngcontrolinterval);
-        playx = 25;
-        playy = 318;
+    Gamereset(){
+        clearInterval(this.rendinterval);
+        this.playx = 25;
+        this.playy = 318;
     }//ゲームリセット
-
-    function Gamestart(isstart){
+    GameEnd(){
+        this.Gamereset();
+        setTimeout(() => {
+            lifefield.removeChild(lifefield.lastChild);
+            alert("あなたの負けです。家へお帰り。");
+            target.style.display = "none";
+            goalfield.style.display = "none";
+            player.style.display = "none";
+            box.style.transform = "rotate3d("+0+","+0+",0,30deg)";
+            startdiv.style.display = "block";
+            return;
+        }, 500);
+    }
+    GameReStart(isstart){
         if(isstart||isstart == undefined){
-            targetset();
-            // 敵移動
+            this.targetset();
+            console.log("敵移動します");
+            //敵移動
         }
-        rend();
-        ngcontrol();
-        clearControl();
+        this.rend();
     }//ゲームスタート
-
-    function Gameover(){
-        Gamereset();
+    Gameover(){
+        this.Gamereset();
         alert("はみ出してしまった！！");
+        lifefield.removeChild(lifefield.lastChild);
         // 再スタート
         setTimeout(() => {
-            Gamestart(false);
+            this.GameReStart(false);
         }, 500);
     }//ゲームオーバー
-
-    function Gameclear(){
-        Gamereset();
+    Gameclear(){
+        this.Gamereset();
         alert("クリア！！敵を倒しました。");
-        clearcount++;
+        this.clearcount++;
         setTimeout(() => {
-            Gamestart();
+            this.GameReStart();
         }, 500);
     }
+}
 
-    function ngcontrol(){
-        ngcontrolinterval = setInterval(()=>{
-            if(playx > 400||playy > 400||playx<-50||playy<-50){
-                Gameover();
+class EnemyAI{
+    constructor(){
+        this.move();
+    }
+    directionDice(){
+        return Math.floor(Math.random()*8)+1;//return 1~8
+    }
+    move(){
+        setInterval(() => {
+            switch(this.directionDice()){
+                case 1:
+                    if(targety<50){
+                        break;
+                    }
+                    targety-=30;
+                    break;
+                case 2:
+                    if(targetx>300||targety<50){
+                        break;
+                    }
+                    targety-=30;
+                    targetx+=30;
+                    break;
+                case 3:
+                    if(targetx>300){
+                        break;
+                    }
+                    targetx+=30;
+                    break;
+                case 4:
+                    if(targetx>300||targety>300){
+                        break;
+                    }
+                    targetx+=30;
+                    targety+=30;
+                    break;
+                case 5:
+                    if(targety>300){
+                        break;
+                    }
+                    targety+=30;
+                    break;
+                case 6:
+                    if(targetx<50||targety>300){
+                        break;
+                    }
+                    targetx-=30;
+                    targety+=30;
+                    break;
+                case 7:
+                    if(targetx<50){
+                        break;
+                    }
+                    targetx-=30;
+                    break;
+                case 8:
+                    if(targetx<50||targety<50){
+                        break;
+                    }
+                    targetx-=30;
+                    targety-=30;
+                    break;
+                default:
+                    console.log(this.directionDice());
             }
-        },20)
-    }//ゲームオーバー監視
-
-    function clearControl(){
-        clearControlinterval = setInterval(() => {
-            if(playx>targetx-10&&playx<targetx+10&&playy>11&&playy<34){
-                Gameclear();
-            }
-        }, 20);
-    }//ゲームクリア監視
-
-    Gamestart();
-})
+            target.style.top = targety+"px";
+            target.style.left = targetx+"px";
+            goalfield.style.left = targetx-27+"px";
+            goalfield.style.top = targety-12+"px";
+        }, 50);
+    }
+}

@@ -104,15 +104,10 @@ window.addEventListener("load",()=>{
             //. iOS 13 以上の場合、
             //. 画面上部に「センサーの有効化」ボタンを追加
             const banner = document.createElement("div");
-            banner.style.zIndex = "1";
-            banner.style.position = "absolute"; 
-            banner.style.width = "100%";
-            banner.style.backgroundColor="#000";
             banner.onclick = ()=>{
                 ClickRequestDeviceSensor();
             }
             banner.id = "sensorrequest";
-            banner.innerHTML = "<p style='color: rgb(0, 0, 255);'>センサーの有効化</p>";
             banner.style.opacity = "0";
             document.body.appendChild(banner);
             banner.click();

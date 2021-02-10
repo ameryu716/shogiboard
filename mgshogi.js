@@ -98,8 +98,8 @@ class GameAllControl{
         goalfield.style.display = "block";
     }
     deviceOrientation(e){
-        //. 通常の処理を無効にする
-        e.preventDefault();
+        // //. 通常の処理を無効にする
+        // e.preventDefault();
         //. スマホの向きを取得
         this.alpha = Math.round(e.alpha);  // z軸（表裏）まわりの回転の角度（反時計回りがプラス）
         this.beta  = -1*Math.round(e.beta/5);   // x軸（左右）まわりの回転の角度（引き起こすとプラス）
@@ -147,7 +147,7 @@ class GameAllControl{
                 alert("elseelsealert!!");
                 //. Android または iOS 13 未満の場合、
                 //. DeviceOrientationEvent オブジェクトが有効な場合のみ、deviceorientation イベント発生時に deviceOrientaion 関数がハンドリングするよう登録
-                window.addEventListener("deviceorientation", this.deviceOrientation());
+                window.addEventListener("deviceorientation", this.deviceOrientation);
             }
         }
     }

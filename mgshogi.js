@@ -104,9 +104,6 @@ class GameAllControl{
         this.alpha = Math.round(e.alpha);  // z軸（表裏）まわりの回転の角度（反時計回りがプラス）
         this.beta  = -1*Math.round(e.beta/5);   // x軸（左右）まわりの回転の角度（引き起こすとプラス）
         this.gamma = Math.round(e.gamma/5);  // y軸（上下）まわりの回転の角度（右に傾けるとプラス)
-        alert(this.alpha);
-        alert(this.beta);
-        alert(this.gamma);
     }
     ClickRequestDeviceSensor(){
         //. ユーザーに「許可」を求めるダイアログを表示
@@ -140,14 +137,12 @@ class GameAllControl{
                 // banner.innerHTML = "<p style='color: rgb(0, 0, 255);'>センサーの有効化</p>";
                 // document.body.appendChild(banner);
                 if(confirm("「将棋ジャイロ」がジャイロセンサーへのアクセスを要求しています。許可してよろしいですか？（許可しないとゲームが遊べません。）")){
-                    alert("ifalert!!");
                     this.ClickRequestDeviceSensor();
                 }else{
                     alert("elsealert!!");
                     alert("ゲームが遊べません。リセットする場合はページをもう一度読み込んでください。");
                 }
             }else{
-                alert("elseelsealert!!");
                 //. Android または iOS 13 未満の場合、
                 //. DeviceOrientationEvent オブジェクトが有効な場合のみ、deviceorientation イベント発生時に deviceOrientaion 関数がハンドリングするよう登録
                 window.addEventListener("deviceorientation", this.deviceOrientation);
@@ -164,8 +159,8 @@ class GameAllControl{
     rend(){
         this.rendinterval = setInterval(()=>{
             box.style.transform = "rotate3d("+this.beta+","+this.gamma+",0,30deg)";
-            this.playx = this.playx +2*this.gamma;
-            this.playy = this.playy -2*this.beta;
+            this.playx = this.playx + 2*this.gamma;
+            this.playy = this.playy - 2*this.beta;
             player.style.left = this.playx+"px";
             player.style.top = this.playy+"px";
             if(this.playx > 400||this.playy > 400||this.playx<-50||this.playy<-50){

@@ -147,7 +147,7 @@ class GameAllControl{
                 alert("elseelsealert!!");
                 //. Android または iOS 13 未満の場合、
                 //. DeviceOrientationEvent オブジェクトが有効な場合のみ、deviceorientation イベント発生時に deviceOrientaion 関数がハンドリングするよう登録
-                window.addEventListener("deviceorientation", this.deviceOrientation);
+                window.addEventListener("deviceorientation", this.deviceOrientation());
             }
         }
     }

@@ -137,11 +137,14 @@ class GameAllControl{
                 // banner.innerHTML = "<p style='color: rgb(0, 0, 255);'>センサーの有効化</p>";
                 // document.body.appendChild(banner);
                 if(confirm("「将棋ジャイロ」がジャイロセンサーへのアクセスを要求しています。許可してよろしいですか？（許可しないとゲームが遊べません。）")){
+                    alert("ifalert!!");
                     this.ClickRequestDeviceSensor();
                 }else{
+                    alert("elsealert!!");
                     alert("ゲームが遊べません。リセットする場合はページをもう一度読み込んでください。");
                 }
             }else{
+                alert("elseelsealert!!");
                 //. Android または iOS 13 未満の場合、
                 //. DeviceOrientationEvent オブジェクトが有効な場合のみ、deviceorientation イベント発生時に deviceOrientaion 関数がハンドリングするよう登録
                 window.addEventListener("deviceorientation", this.deviceOrientation);

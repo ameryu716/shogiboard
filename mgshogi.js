@@ -63,6 +63,11 @@ const target = document.getElementById("target");
 const statuss = document.getElementById("status");
 const goalfield = document.getElementById("field");
 const lifefield = document.getElementById("life");
+const enemylife = document.getElementById("enemylife");
+const stopfield = document.getElementById("stop");
+
+const normalswitch = document.getElementById("normalinput");
+const hardswitch = document.getElementById("hardinput");
 
 let alpha = 0;
 let beta = 0;
@@ -128,14 +133,21 @@ class GameAllControl{
         this.clearcount = 0;
         this.rendinterval;
         this.life = 3;
+        this.enemylife = 3;
         this.LifeAndDisplaySet();
         this.GameReStart();
+        this.StopSet();
     }
     LifeAndDisplaySet(){
         for(let i=0;i<this.life;i++){
             let newlife = new Image();
             newlife.src = "./hart.png";
             lifefield.appendChild(newlife);
+        }
+        for(let i=0;i<this.life;i++){
+            let newlife = new Image();
+            newlife.src = "./hart.png";
+            enemylife.appendChild(newlife);
         }
         player.style.display = "block";
         target.style.display = "block";
@@ -158,14 +170,19 @@ class GameAllControl{
             if(gamecontroler.playx > 400||gamecontroler.playy > 400||gamecontroler.playx<-50||gamecontroler.playy<-50){
                 gamecontroler.life--;
                 if(gamecontroler.life == 0){
-                    gamecontroler.GameEnd();
+                    gamecontroler.GameEnd("lose");
                 }else{
                     gamecontroler.Gameover();
                 }
                 return;
             }//場外
             if(gamecontroler.playx>targetx-10&&gamecontroler.playx<targetx+10&&gamecontroler.playy>targety-10&&gamecontroler.playy<targety+10){
-                gamecontroler.Gameclear();
+                gamecontroler.enemylife--;
+                if(gamecontroler.enemylife == 0){
+                    gamecontroler.GameEnd("win");
+                }else{
+                    gamecontroler.Gameclear();
+                }
                 return;
             }//クリア
             statuss.innerText = alpha+","+beta+","+gamma+"クリア回数:"+gamecontroler.clearcount;
@@ -174,13 +191,26 @@ class GameAllControl{
     Gamereset(){
         clearInterval(this.rendinterval);
         this.playx = 25;
-        this.playy = 318;
+        this.playy = 300;
     }//ゲームリセット
-    GameEnd(){
+    GameEnd(WOL){
         this.Gamereset();
         setTimeout(() => {
-            lifefield.removeChild(lifefield.lastChild);
-            alert("あなたの負けです。家へお帰り。");
+            if(WOL=="win"){
+                enemylife.removeChild(enemylife.lastChild);
+                alert("あなたの勝ちです！おめでとうございます！！");
+            }
+            if(WOL=="lose"){
+                lifefield.removeChild(lifefield.lastChild);
+                alert("あなたの負けです。家へお帰り。");
+            }
+            if(WOL=="stop"){
+                enemylife.innerHTML = "<span>LIFE:</span>";
+                lifefield.innerHTML = "<span>LIFE:</span>";
+                alert("ゲームを終了します");
+                stopfield.onclick = undefined;
+                stopfield.style.opacity = "0.3";
+            }
             target.style.display = "none";
             goalfield.style.display = "none";
             player.style.display = "none";
@@ -190,6 +220,7 @@ class GameAllControl{
         }, 500);
     }
     GameReStart(isstart){
+        stopfield.style.opacity = "1";
         if(isstart||isstart == undefined){
             this.targetset();
             console.log("敵移動します");
@@ -209,74 +240,87 @@ class GameAllControl{
     Gameclear(){
         this.Gamereset();
         alert("クリア！！敵を倒しました。");
+        enemylife.removeChild(enemylife.lastChild);
         this.clearcount++;
         setTimeout(() => {
             this.GameReStart();
         }, 500);
     }
+    StopSet(){
+        stopfield.onclick = ()=>{
+            gamecontroler.GameEnd("stop");
+        }
+    }
 }
 
 class EnemyAI{
-    constructor(){
-        this.move();
+    constructor(diff){
+        this.move(diff);
     }
     directionDice(){
         return Math.floor(Math.random()*8)+1;//return 1~8
     }
-    move(){
+    move(diff){
+        let ddd = 0;
+        if(diff == "normal"){
+            ddd = 10;
+        }
+        if(diff == "hard"){
+            ddd = 30;
+        }
         setInterval(() => {
             switch(this.directionDice()){
                 case 1:
                     if(targety<50){
                         break;
                     }
-                    targety-=10;
+                    targety-=ddd;
                     break;
                 case 2:
                     if(targetx>300||targety<50){
                         break;
                     }
-                    targety-=10;
-                    targetx+=10;
+                    targety-=ddd;
+                    targetx+=ddd;
                     break;
                 case 3:
                     if(targetx>300){
                         break;
                     }
-                    targetx+=10;
+                    targetx+=ddd;
                     break;
                 case 4:
                     if(targetx>300||targety>300){
                         break;
                     }
-                    targetx+=10;
-                    targety+=10;
+                    targetx+=ddd;
+                    targety+=ddd;
                     break;
                 case 5:
                     if(targety>300){
                         break;
                     }
-                    targety+=10;
+                    targety+=ddd;
                     break;
                 case 6:
                     if(targetx<50||targety>300){
                         break;
                     }
-                    targetx-=10;
-                    targety+=10;
+                    targetx-=ddd;
+                    targety+=ddd;
                     break;
                 case 7:
                     if(targetx<50){
                         break;
                     }
-                    targetx-=10;
+                    targetx-=ddd;
                     break;
                 case 8:
                     if(targetx<50||targety<50){
                         break;
                     }
-                    targetx-=10;
-                    targety-=10;
+                    targetx-=ddd;
+                    targety-=ddd;
                     break;
                 default:
                     console.log(this.directionDice());
@@ -292,5 +336,10 @@ class EnemyAI{
 startbtn.onclick = ()=>{
     startdiv.style.display = "none";
     gamecontroler = new GameAllControl();
-    new EnemyAI();
+    if(normalswitch.checked){
+        new EnemyAI("normal");
+    }else if(hardswitch.checked){
+        new EnemyAI("hard");
+    }
+    
 }

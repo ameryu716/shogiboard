@@ -24,6 +24,9 @@
     <title>ジャイロ将棋</title>
 </head>
 <body>
+    <div id="enemylife" class="life">
+        <span>LIFE:</span>
+    </div>
     <div id="wrap">
         <Targetpiece></Targetpiece>
         <div id="field"></div>
@@ -33,10 +36,15 @@
     <div id="status">
         default
     </div>
-    <div id="life">
+    <div id="life" class="life">
         <span>LIFE:</span>
     </div>
+    <div id="stopfield">
+        <button id="stop">やめる</button>
+    </div>
     <div id="startdiv">
+        <label id="normallabel"><input type="radio" name="gamemode" id="normalinput"><span>簡単</span></label>
+        <label id="hardlabel"><input type="radio" name="gamemode" id="hardinput"><span>難しい</span></label>
         <button id="startbtn">START</button>
     </div>
     <script>

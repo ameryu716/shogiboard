@@ -221,22 +221,34 @@ body {
     border: solid 3px red;
     padding: 10px;
 }
-#life {
-    top: 10px;
+.life {
     display: flex;
     position: absolute;
-    right: 10px;
     padding: 10px 20px;
+}
+.life span {
+    font-size: 32px;
+    font-weight: bold;
+}
+#life {
+    top: 10px;
+    right: 10px;
     border: dashed 3px orangered;
 }
 #life span {
-    font-size: 32px;
     color: orangered;
-    font-weight: bold;
+}
+#enemylife {
+    left: 10px;
+    bottom: 10px;
+    border: dashed 3px rgb(5, 36, 5);
+}
+#enemylife span {
+    color: rgb(6, 41, 6);
 }
 #startdiv {
     position: absolute;
-    height: 100%;
+    height: 140%;
     width: 100%;
     top: 0;
     left: 0;
@@ -258,6 +270,40 @@ body {
 #startbtn:hover {
     cursor: pointer;
     opacity: 0.7;
+}
+#stopfield {
+    position: absolute;
+    bottom: -160px;
+    right: 20px;
+}
+#stop {
+    width: 150px;
+    height: 50px;
+    font-size: 24px;
+    border: solid 3px red;
+    background-color: #fff;
+    color: indianred;
+    font-weight: bold;
+    border-radius: 10px;
+}
+#startdiv label {
+    display: flex;
+    font-size: 32px;
+    position: absolute;
+    top: 22%;
+}
+#startdiv label span {
+    margin: 8px 0 0 8px;
+}
+input[type="radio"]{
+    height: 50px;
+    width: 50px;
+}
+#normallabel {
+    left: 5%;
+}
+#hardlabel {
+    right: 5%;
 }
 
 @media screen and (max-width: 480px){
@@ -417,6 +463,12 @@ body {
         top: unset;
         bottom: -90px;
         left: 10px;
+    }
+    #enemylife {
+        position: relative;
+        bottom: unset;
+        left: unset;
+        margin: 10px;
     }
     #startbtn {
         top: 36%;

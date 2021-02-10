@@ -74,7 +74,7 @@ let targety = 0;
 window.addEventListener("load",()=>{
     function deviceOrientation(e){
         // //. 通常の処理を無効にする
-        // e.preventDefault();
+        e.preventDefault();
         //. スマホの向きを取得
         alpha = Math.round(e.alpha);  // z軸（表裏）まわりの回転の角度（反時計回りがプラス）
         beta  = -1*Math.round(e.beta);   // x軸（左右）まわりの回転の角度（引き起こすとプラス）

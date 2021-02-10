@@ -103,7 +103,8 @@ class GameAllControl{
         //. スマホの向きを取得
         this.alpha = Math.round(e.alpha);  // z軸（表裏）まわりの回転の角度（反時計回りがプラス）
         this.beta  = -1*Math.round(e.beta/5);   // x軸（左右）まわりの回転の角度（引き起こすとプラス）
-        this.gamma = Math.round(e.gamma/5);  // y軸（上下）まわりの回転の角度（右に傾けるとプラス）
+        this.gamma = Math.round(e.gamma/5);  // y軸（上下）まわりの回転の角度（右に傾けるとプラス)
+        alert(new Error(e));
     }
     ClickRequestDeviceSensor(){
         //. ユーザーに「許可」を求めるダイアログを表示

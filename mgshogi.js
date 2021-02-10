@@ -103,17 +103,11 @@ window.addEventListener("load",()=>{
         if( DeviceOrientationEvent.requestPermission && typeof DeviceOrientationEvent.requestPermission === 'function' ){
             //. iOS 13 以上の場合、
             //. 画面上部に「センサーの有効化」ボタンを追加
-            const banner = document.createElement("div");
-            banner.style.zIndex = "1";
-            banner.style.position = "absolute"; 
-            banner.style.width = "100%";
-            banner.style.backgroundColor="#000";
-            banner.onclick = ()=>{
+            if(confirm("ジャイロセンサーへのアクセスを許可しますか？")){
                 ClickRequestDeviceSensor();
+            }else{
+                alert("ゲームをプレイできません。");
             }
-            banner.id = "sensorrequest";
-            banner.innerHTML = "<p style='color: rgb(0, 0, 255);'>センサーの有効化</p>";
-            document.body.appendChild(banner);
         }else{
             //. Android または iOS 13 未満の場合、
             //. DeviceOrientationEvent オブジェクトが有効な場合のみ、deviceorientation イベント発生時に deviceOrientaion 関数がハンドリングするよう登録

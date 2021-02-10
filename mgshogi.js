@@ -184,7 +184,7 @@ window.addEventListener("load",()=>{
 
     function clearControl(){
         clearControlinterval = setInterval(() => {
-            if(playx>targetx-5&&playx<targetx+5&&playy>18&&playy<28){
+            if(playx>targetx-10&&playx<targetx+10&&playy>11&&playy<34){
                 Gameclear();
             }
         }, 20);

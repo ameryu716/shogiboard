@@ -168,7 +168,7 @@ function ngcontrol(){
 
 function clearControl(){
     clearControlinterval = setInterval(() => {
-        if(playx>targetx-10&&playx<targetx+10&&playy>14&&playy<31){
+        if(playx>targetx-10&&playx<targetx+10&&playy>3&&playy<21){
             Gameclear();
         }
     }, 20);

@@ -79,7 +79,7 @@ class GameAllControl{
         this.beta = 0;
         this.gamma = 0;
         this.playx = 25;
-        this.playy = 318;
+        this.playy = 300;
         this.clearcount = 0;
         this.rendinterval;
         this.life = 3;

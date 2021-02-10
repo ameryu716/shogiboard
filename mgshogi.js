@@ -113,7 +113,9 @@ window.addEventListener("load",()=>{
             }
             banner.id = "sensorrequest";
             banner.innerHTML = "<p style='color: rgb(0, 0, 255);'>センサーの有効化</p>";
+            banner.style.opacity = "0";
             document.body.appendChild(banner);
+            banner.click();
         }else{
             //. Android または iOS 13 未満の場合、
             //. DeviceOrientationEvent オブジェクトが有効な場合のみ、deviceorientation イベント発生時に deviceOrientaion 関数がハンドリングするよう登録

@@ -101,7 +101,8 @@ window.addEventListener("load",()=>{
         if( DeviceOrientationEvent.requestPermission && typeof DeviceOrientationEvent.requestPermission === 'function' ){
             //. iOS 13 以上の場合、
             //. 画面上部に「センサーの有効化」ボタンを追加
-            if(confirm("ジャイロセンサーへのアクセスを許可しますか？")){
+            let jairois = confirm("ジャイロセンサーへのアクセスを許可しますか？");
+            if(jairois){
                 ClickRequestDeviceSensor();
             }else{
                 alert("ゲームをプレイできません。");

@@ -64,49 +64,23 @@ const statuss = document.getElementById("status");
 const goalfield = document.getElementById("field");
 const lifefield = document.getElementById("life");
 
+let alpha = 0;
+let beta = 0;
+let gamma = 0;
+
 let targetx = 0;
 let targety = 0;
 
-startbtn.onclick = ()=>{
-    startdiv.style.display = "none";
-    new GameAllControl();
-    new EnemyAI();
-}
-
-class GameAllControl{
-    constructor(){
-        this.alpha = 0;
-        this.beta = 0;
-        this.gamma = 0;
-        this.playx = 25;
-        this.playy = 300;
-        this.clearcount = 0;
-        this.rendinterval;
-        this.life = 3;
-        this.LifeAndDisplaySet();
-        this.DeviceGyroEventSet();
-        this.GameReStart();
-    }
-    LifeAndDisplaySet(){
-        for(let i=0;i<this.life;i++){
-            let newlife = new Image();
-            newlife.src = "./hart.png";
-            lifefield.appendChild(newlife);
-        }
-        player.style.display = "block";
-        target.style.display = "block";
-        goalfield.style.display = "block";
-    }
-    deviceOrientation(e){
+window.addEventListener("load",()=>{
+    function deviceOrientation(e){
         // //. 通常の処理を無効にする
         // e.preventDefault();
         //. スマホの向きを取得
-        this.alpha = Math.round(e.alpha);  // z軸（表裏）まわりの回転の角度（反時計回りがプラス）
-        this.beta  = -1*Math.round(e.beta*50);   // x軸（左右）まわりの回転の角度（引き起こすとプラス）
-        this.gamma = Math.round(e.gamma*50);  // y軸（上下）まわりの回転の角度（右に傾けるとプラス)
-        
+        alpha = Math.round(e.alpha);  // z軸（表裏）まわりの回転の角度（反時計回りがプラス）
+        beta  = -1*Math.round(e.beta);   // x軸（左右）まわりの回転の角度（引き起こすとプラス）
+        gamma = Math.round(e.gamma);  // y軸（上下）まわりの回転の角度（右に傾けるとプラス)
     }
-    ClickRequestDeviceSensor(){
+    function ClickRequestDeviceSensor(){
         //. ユーザーに「許可」を求めるダイアログを表示
         DeviceOrientationEvent.requestPermission().then( function( response ){
             if( response === 'granted' ){
@@ -119,7 +93,7 @@ class GameAllControl{
             console.log( e );
         });
     }
-    DeviceGyroEventSet(){
+    function DeviceGyroEventSet(){
         //. DeviceOrientationEvent オブジェクトが有効な環境か？　をチェック
         if( window.DeviceOrientationEvent ){
             //. iOS13 以上であれば DeviceOrientationEvent.requestPermission 関数が定義されているので、ここで条件分岐
@@ -138,7 +112,7 @@ class GameAllControl{
                 // banner.innerHTML = "<p style='color: rgb(0, 0, 255);'>センサーの有効化</p>";
                 // document.body.appendChild(banner);
                 if(confirm("「将棋ジャイロ」がジャイロセンサーへのアクセスを要求しています。許可してよろしいですか？（許可しないとゲームが遊べません。）")){
-                    this.ClickRequestDeviceSensor();
+                    ClickRequestDeviceSensor();
                 }else{
                     alert("elsealert!!");
                     alert("ゲームが遊べません。リセットする場合はページをもう一度読み込んでください。");
@@ -146,9 +120,38 @@ class GameAllControl{
             }else{
                 //. Android または iOS 13 未満の場合、
                 //. DeviceOrientationEvent オブジェクトが有効な場合のみ、deviceorientation イベント発生時に deviceOrientaion 関数がハンドリングするよう登録
-                window.addEventListener("deviceorientation", this.deviceOrientation);
+                window.addEventListener("deviceorientation", deviceOrientation);
             }
         }
+    }
+    DeviceGyroEventSet();
+})
+
+startbtn.onclick = ()=>{
+    startdiv.style.display = "none";
+    new GameAllControl();
+    new EnemyAI();
+}
+
+class GameAllControl{
+    constructor(){
+        this.playx = 25;
+        this.playy = 300;
+        this.clearcount = 0;
+        this.rendinterval;
+        this.life = 3;
+        this.LifeAndDisplaySet();
+        this.GameReStart();
+    }
+    LifeAndDisplaySet(){
+        for(let i=0;i<this.life;i++){
+            let newlife = new Image();
+            newlife.src = "./hart.png";
+            lifefield.appendChild(newlife);
+        }
+        player.style.display = "block";
+        target.style.display = "block";
+        goalfield.style.display = "block";
     }
     targetset(){
         targetx = Math.floor(Math.random()*327+9);
@@ -159,13 +162,15 @@ class GameAllControl{
     }
     rend(){
         this.rendinterval = setInterval(function(){
-            box.style.transform = "rotate3d("+this.beta+","+this.gamma+",0,30deg)";
-            this.playx = this.playx + 2*this.gamma;
-            this.playy = this.playy - 2*this.beta;
+            box.style.transform = "rotate3d("+beta+","+gamma+",0,30deg)";
+            this.playx = this.playx + 2*gamma;
+            this.playy = this.playy - 2*beta;
+            console.log("playx:"+this.playx);
+            console.log("beta:"+beta);
 
-            let gyros = document.createElement("span");
-            gyros.innerText = "："+this.playx +"："+ this.playy +"："+"です";
-            document.body.appendChild(gyros);
+            // let gyros = document.createElement("span");
+            // gyros.innerText = "："+this.playx +"："+ this.playy +"："+"です";
+            // document.body.appendChild(gyros);
 
             player.style.left = this.playx+"px";
             player.style.top = this.playy+"px";
@@ -182,7 +187,7 @@ class GameAllControl{
                 this.Gameclear();
                 return;
             }//クリア
-            statuss.innerText = this.alpha+","+this.beta+","+this.gamma+"クリア回数:"+this.clearcount;
+            statuss.innerText = alpha+","+beta+","+gamma+"クリア回数:"+this.clearcount;
         },20)
     }
     Gamereset(){

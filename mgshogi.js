@@ -79,8 +79,8 @@ window.addEventListener("load",()=>{
         e.preventDefault();
         //. スマホの向きを取得
         alpha = Math.round(e.alpha);  // z軸（表裏）まわりの回転の角度（反時計回りがプラス）
-        beta  = -1*Math.round(e.beta/10);   // x軸（左右）まわりの回転の角度（引き起こすとプラス）
-        gamma = Math.round(e.gamma/10);  // y軸（上下）まわりの回転の角度（右に傾けるとプラス）
+        beta  = -1*Math.round(e.beta/5);   // x軸（左右）まわりの回転の角度（引き起こすとプラス）
+        gamma = Math.round(e.gamma/5);  // y軸（上下）まわりの回転の角度（右に傾けるとプラス）
     }
     
     function ClickRequestDeviceSensor(){
@@ -153,14 +153,6 @@ class GameAllControl{
             box.style.transform = "rotate3d("+beta+","+gamma+",0,30deg)";
             gamecontroler.playx += 2*gamma;
             gamecontroler.playy -= 2*beta;
-            // console.log("playx:"+gamecontroler.playx);
-            // console.log("beta:"+beta);
-
-            // // let gyros = document.createElement("span");
-            // // gyros.innerText = "："+gamecontroler.playx +"："+ gamecontroler.playy +"："+"です";
-            // // document.body.appendChild(gyros);
-            
-
             player.style.left = gamecontroler.playx + "px";
             player.style.top = gamecontroler.playy+"px";
             if(gamecontroler.playx > 400||gamecontroler.playy > 400||gamecontroler.playx<-50||gamecontroler.playy<-50){
@@ -238,53 +230,53 @@ class EnemyAI{
                     if(targety<50){
                         break;
                     }
-                    targety-=30;
+                    targety-=10;
                     break;
                 case 2:
                     if(targetx>300||targety<50){
                         break;
                     }
-                    targety-=30;
-                    targetx+=30;
+                    targety-=10;
+                    targetx+=10;
                     break;
                 case 3:
                     if(targetx>300){
                         break;
                     }
-                    targetx+=30;
+                    targetx+=10;
                     break;
                 case 4:
                     if(targetx>300||targety>300){
                         break;
                     }
-                    targetx+=30;
-                    targety+=30;
+                    targetx+=10;
+                    targety+=10;
                     break;
                 case 5:
                     if(targety>300){
                         break;
                     }
-                    targety+=30;
+                    targety+=10;
                     break;
                 case 6:
                     if(targetx<50||targety>300){
                         break;
                     }
-                    targetx-=30;
-                    targety+=30;
+                    targetx-=10;
+                    targety+=10;
                     break;
                 case 7:
                     if(targetx<50){
                         break;
                     }
-                    targetx-=30;
+                    targetx-=10;
                     break;
                 case 8:
                     if(targetx<50||targety<50){
                         break;
                     }
-                    targetx-=30;
-                    targety-=30;
+                    targetx-=10;
+                    targety-=10;
                     break;
                 default:
                     console.log(this.directionDice());

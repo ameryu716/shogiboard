@@ -416,7 +416,7 @@ body {
     #life {
         top: unset;
         bottom: -90px;
-        left: 0;
+        left: 10px;
     }
     #startbtn {
         top: 36%;

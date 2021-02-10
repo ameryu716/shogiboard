@@ -58,6 +58,7 @@ const box = document.getElementById("wrap");
 const player = document.getElementById("player");
 const target = document.getElementById("target");
 const statuss = document.getElementById("status");
+const goalfield = document.getElementById("field");
 
 let xr = 0;
 let yr = 0;
@@ -65,45 +66,47 @@ let playx = 50;
 let playy = 500;
 let targetx = 0;
 let clearcount = 0;
-// let zr = 0;
 let rendinterval;
 let ngcontrolinterval;
 let clearControlinterval;
 
 document.addEventListener('keydown', (event) => {
-    if(event.key=="z"){
-        yr = yr+2;
+    if(event.key == "Right" || event.key == "ArrowRight"){
+        xr = xr+5;
     }
-    if(event.key=="x"){
-        xr = xr+2;
+    if(event.key == "Left" || event.key == "ArrowLeft"){
+        xr = xr-5;
     }
-    if(event.key=="c"){
-        yr = yr-2;
+    if(event.key == "Up" || event.key == "ArrowUp"){
+        yr = yr+5;
+        event.preventDefault();
     }
-    if(event.key=="v"){
-        xr = xr-2;
+    if(event.key == "Down" || event.key == "ArrowDown"){
+        yr = yr-5;
+        event.preventDefault();
     }
     // time = 0;
 }, false);
 
 document.addEventListener('keyup', (event) => {
-    if(event.key=="z"){
-        yr = 0;
-    }
-    if(event.key=="x"){
+    if(event.key == "Right" || event.key == "ArrowRight"){
         xr = 0;
     }
-    if(event.key=="c"){
+    if(event.key == "Left" || event.key == "ArrowLeft"){
+        xr = 0;
+    }
+    if(event.key == "Up" || event.key == "ArrowUp"){
         yr = 0;
     }
-    if(event.key=="v"){
-        xr = 0;
+    if(event.key == "Down" || event.key == "ArrowDown"){
+        yr = 0;
     }
 }, false);
 
 function targetset(){
     targetx = Math.floor(Math.random()*551+10);
     target.style.left = targetx+"px";
+    goalfield.style.left = targetx-27+"px";
     // 9~336 random
 }
 
@@ -165,7 +168,7 @@ function ngcontrol(){
 
 function clearControl(){
     clearControlinterval = setInterval(() => {
-        if(playx>targetx-5&&playx<targetx+5&&playy>10&&playy<20){
+        if(playx>targetx-10&&playx<targetx+10&&playy>14&&playy<31){
             Gameclear();
         }
     }, 20);

@@ -65,8 +65,8 @@ window.addEventListener("load",()=>{
         e.preventDefault();
         //. スマホの向きを取得
         alpha = Math.round(e.alpha);  // z軸（表裏）まわりの回転の角度（反時計回りがプラス）
-        beta  = -1*Math.round(e.beta/10);   // x軸（左右）まわりの回転の角度（引き起こすとプラス）
-        gamma = Math.round(e.gamma/10);  // y軸（上下）まわりの回転の角度（右に傾けるとプラス）
+        beta  = -1*Math.round(e.beta/5);   // x軸（左右）まわりの回転の角度（引き起こすとプラス）
+        gamma = Math.round(e.gamma/5);  // y軸（上下）まわりの回転の角度（右に傾けるとプラス）
     }
     
     function ClickRequestDeviceSensor(){
@@ -110,6 +110,7 @@ window.addEventListener("load",()=>{
     const box = document.getElementById("wrap");
     const player = document.getElementById("player");
     const target = document.getElementById("target");
+    const goalfield = document.getElementById("field");
     const statuss = document.getElementById("status");
 
     let playx = 25;
@@ -118,11 +119,12 @@ window.addEventListener("load",()=>{
     let clearcount = 0;
     let rendinterval;
     let ngcontrolinterval;
-    let clearControlinterval;
+    let clearControlinterval;//使われてるよ！！
 
     function targetset(){
         targetx = Math.floor(Math.random()*327+9);
         target.style.left = targetx+"px";
+        goalfield.style.left = targetx-17+"px";
         // 9~336 random
     }
 

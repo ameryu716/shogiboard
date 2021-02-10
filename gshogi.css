@@ -107,7 +107,7 @@ body {
     height: 100px;
     transform-style: preserve-3d;
     perspective-origin: center;
-    transition: 0.1s;
+    transition: 0.05s;
     position: absolute;
     transform: translateZ(22px);
 }
@@ -129,8 +129,8 @@ body {
 }
 .surface1 span {
     display: block;
-    /* padding: 13% 24% 5%;
-    font-size: 256px; */
+    padding: 15% 24% 5%;
+    font-size: 38px;
     font-family: "Sawarabi Mincho",serif;
     font-weight: bold;
     line-height: 1;
@@ -202,6 +202,15 @@ body {
 #target {
     top: 15px;
     left: 10px;
+}
+#field {
+    width: 130px;
+    height: 130px;
+    border: solid 2px red;
+    border-radius: 100%;
+    position: absolute;
+    transform: translateZ(10px);
+    top: 3px;
 }
 #player {
     top: 500px;
@@ -300,7 +309,8 @@ body {
     left: 0;
 }
 .surface1 span {
-    padding: 9px 3px;
+    padding: 7px 3px;
+    font-size: 5vw;
 }
 /* 右斜面 */
 .surface2 {
@@ -353,6 +363,11 @@ body {
     #target {
         top: 23px;
         left: 173px;
+    }
+    #field {
+        width: 70px;
+        height: 70px;
+        top: 14px;
     }
     #player {
         top: 318px;

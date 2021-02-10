@@ -89,8 +89,6 @@ window.addEventListener("load",()=>{
             if( response === 'granted' ){
                 //. 許可された場合のみイベントハンドラを追加できる
                 window.addEventListener( "deviceorientation", deviceOrientation );
-                //. 画面上部のボタンを消す
-                document.getElementById("sensorrequest").style.display = "none";
             }
         }).catch( function( e ){
             console.log( e );

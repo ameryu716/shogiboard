@@ -340,6 +340,8 @@ startbtn.onclick = ()=>{
         new EnemyAI("normal");
     }else if(hardswitch.checked){
         new EnemyAI("hard");
+    }else{
+        return;
     }
     
 }

@@ -307,6 +307,16 @@ input[type="radio"]{
 }
 
 @media screen and (max-width: 480px){
+    body {
+        width: 100vw;
+        height: 100vh;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+    #wrap {
+        padding: 10px 0;
+        margin: 0;
+    }
     #grid {
         transition: 0.3s;
         width: 353px;
@@ -456,22 +466,28 @@ input[type="radio"]{
         border-width: 1px;
     }
     #status {
-        top: unset;
-        bottom: -160px;
+        position: relative;
     }
     #life {
+        position: relative;
+        margin: 10px;
         top: unset;
-        bottom: -90px;
-        left: 10px;
+        right: unset;
     }
     #enemylife {
         position: relative;
         bottom: unset;
         left: unset;
-        margin: 10px;
+        width: auto;
+    }
+    #startdiv {
+        height: 100%;
     }
     #startbtn {
-        top: 36%;
         left: 16%;
+    }
+    #stopfield {
+        bottom: 5%;
+        right: 20px;
     }
 }

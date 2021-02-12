@@ -315,7 +315,7 @@ input[type="radio"]{
     }
     #wrap {
         padding: 10px 0;
-        margin: 0;
+        margin: 0 auto;
     }
     #grid {
         transition: 0.3s;
@@ -487,7 +487,9 @@ input[type="radio"]{
         left: 16%;
     }
     #stopfield {
-        bottom: 5%;
-        right: 20px;
+        bottom: unset;
+        right: unset;
+        position: relative;
+        margin-left: 53%;
     }
 }

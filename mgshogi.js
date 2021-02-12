@@ -334,14 +334,15 @@ class EnemyAI{
 }
 
 startbtn.onclick = ()=>{
-    startdiv.style.display = "none";
-    gamecontroler = new GameAllControl();
     if(normalswitch.checked){
+        startdiv.style.display = "none";
+        gamecontroler = new GameAllControl();
         new EnemyAI("normal");
     }else if(hardswitch.checked){
+        startdiv.style.display = "none";
+        gamecontroler = new GameAllControl();
         new EnemyAI("hard");
     }else{
         return;
     }
-    
 }

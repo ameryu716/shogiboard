@@ -484,7 +484,10 @@ input[type="radio"]{
         height: 100%;
     }
     #startbtn {
-        left: 16%;
+        position: relative;
+        margin: 76% 17%;
+        top: unset;
+        left: unset;
     }
     #stopfield {
         bottom: unset;

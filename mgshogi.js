@@ -124,6 +124,17 @@ window.addEventListener("load",()=>{
     }
 })
 
+const debugcheck = document.getElementById("debugcheck");
+let debugmode = false;
+debugcheck.onchange = ()=>{
+    debugmode = !debugmode;
+    if(debugmode){
+        statuss.style.display = "block";
+    }else{
+        statuss.style.display = "none";
+    }
+}
+
 let gamecontroler;
 
 class GameAllControl{
@@ -185,7 +196,9 @@ class GameAllControl{
                 }
                 return;
             }//クリア
-            statuss.innerText = alpha+","+beta+","+gamma+"クリア回数:"+gamecontroler.clearcount;
+            if(debugmode){
+                statuss.innerText = alpha+","+beta+","+gamma+"クリア回数:"+gamecontroler.clearcount;
+            }
         },20)
     }
     Gamereset(){
@@ -196,21 +209,23 @@ class GameAllControl{
     GameEnd(WOL){
         this.Gamereset();
         setTimeout(() => {
-            if(WOL=="win"){
-                enemylife.removeChild(enemylife.lastChild);
-                alert("あなたの勝ちです！おめでとうございます！！");
+            switch(WOL){
+                case "win":
+                    alert("あなたの勝ちです！おめでとうございます！！");
+                    break;
+                case "lose":
+                    alert("あなたの負けです。家へお帰り。");
+                    break;
+                case "stop":
+                    alert("ゲームを終了します");
+                    break;
+                default :
+                    throw new Error();
             }
-            if(WOL=="lose"){
-                lifefield.removeChild(lifefield.lastChild);
-                alert("あなたの負けです。家へお帰り。");
-            }
-            if(WOL=="stop"){
-                enemylife.innerHTML = "<span>LIFE:</span>";
-                lifefield.innerHTML = "<span>LIFE:</span>";
-                alert("ゲームを終了します");
-                stopfield.onclick = undefined;
-                stopfield.style.opacity = "0.3";
-            }
+            stopfield.onclick = undefined;
+            stopfield.style.opacity = "0.3";
+            enemylife.innerHTML = "<span>LIFE:</span>";
+            lifefield.innerHTML = "<span>LIFE:</span>";
             target.style.display = "none";
             goalfield.style.display = "none";
             player.style.display = "none";
@@ -254,73 +269,67 @@ class GameAllControl{
 }
 
 class EnemyAI{
-    constructor(diff){
-        this.move(diff);
+    constructor(){
+        this.ddd = 0;
+        this.move();
     }
     directionDice(){
         return Math.floor(Math.random()*8)+1;//return 1~8
     }
-    move(diff){
-        let ddd = 0;
-        if(diff == "normal"){
-            ddd = 10;
-        }
-        if(diff == "hard"){
-            ddd = 30;
-        }
+    move(){
         setInterval(() => {
             switch(this.directionDice()){
                 case 1:
                     if(targety<50){
                         break;
                     }
-                    targety-=ddd;
+                    targety-=this.ddd;
                     break;
                 case 2:
                     if(targetx>300||targety<50){
                         break;
                     }
-                    targety-=ddd;
-                    targetx+=ddd;
+                    targety-=this.ddd;
+                    targetx+=this.ddd;
                     break;
                 case 3:
                     if(targetx>300){
                         break;
                     }
-                    targetx+=ddd;
+                    targetx+=this.ddd;
                     break;
                 case 4:
                     if(targetx>300||targety>300){
                         break;
                     }
-                    targetx+=ddd;
-                    targety+=ddd;
+                    targetx+=this.ddd;
+                    targety+=this.ddd;
                     break;
                 case 5:
                     if(targety>300){
                         break;
                     }
-                    targety+=ddd;
+                    targety+=this.ddd;
                     break;
                 case 6:
                     if(targetx<50||targety>300){
                         break;
                     }
-                    targetx-=ddd;
-                    targety+=ddd;
+                    targetx-=this.ddd;
+                    targety+=this.ddd;
                     break;
                 case 7:
                     if(targetx<50){
                         break;
                     }
-                    targetx-=ddd;
+                    targetx-=this.ddd;
                     break;
                 case 8:
                     if(targetx<50||targety<50){
                         break;
                     }
-                    targetx-=ddd;
-                    targety-=ddd;
+                    targetx-=this.ddd;
+                    targety-=this.ddd;
                     break;
                 default:
                     console.log(this.directionDice());
@@ -333,15 +342,27 @@ class EnemyAI{
     }
 }
 
+let enemycontrol;
+let firstenemy = true;
+
 startbtn.onclick = ()=>{
+    if(debugmode){
+        alert(normalswitch.checked+":"+hardswitch.checked+"ニューゲーム");
+    }
+    if(firstenemy){
+        enemycontrol = new EnemyAI();
+        console.log("初回のみエネミーを作成");
+    }
     if(normalswitch.checked){
         startdiv.style.display = "none";
         gamecontroler = new GameAllControl();
-        new EnemyAI("normal");
+        enemycontrol.ddd = 10;
+        firstenemy = false;
     }else if(hardswitch.checked){
         startdiv.style.display = "none";
         gamecontroler = new GameAllControl();
-        new EnemyAI("hard");
+        enemycontrol.ddd = 30;
+        firstenemy = false;
     }else{
         return;
     }

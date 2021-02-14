@@ -220,6 +220,7 @@ body {
     left: 0;
     border: solid 3px red;
     padding: 10px;
+    display: none;
 }
 .life {
     display: flex;
@@ -304,6 +305,12 @@ input[type="radio"]{
 }
 #hardlabel {
     right: 5%;
+}
+#debugb {
+    position: absolute;
+    bottom: 1%;
+    left: 2%;
+    z-index: 1;
 }
 
 @media screen and (max-width: 480px){
@@ -467,6 +474,7 @@ input[type="radio"]{
     }
     #status {
         position: relative;
+        opacity: 0;
     }
     #life {
         position: relative;

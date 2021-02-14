@@ -307,9 +307,7 @@ input[type="radio"]{
     right: 5%;
 }
 #debugb {
-    position: absolute;
-    bottom: 1%;
-    left: 2%;
+    position: relative;
     z-index: 1;
 }
 

@@ -1,0 +1,501 @@
+body {
+    padding: 0;
+    margin: 0;
+    position: relative;
+}
+#wrap {
+    width: fit-content;
+    height: fit-content;
+    padding: 10px;
+    margin: 0 auto;
+    position: relative;
+    transform-style: preserve-3d;
+    perspective-origin: 0% 100%;
+    transition: 0.3s;
+}
+#grid {
+    transition: 0.3s;
+    width: 610px;
+    height: 610px;
+    display: grid;
+    grid-template-rows: 65px 65px 65px 65px 65px 65px 65px 65px 65px;
+    grid-template-columns: 65px 65px 65px 65px 65px 65px 65px 65px 65px;
+    background-image: url("./wood1.jpg");
+    background-size: cover;
+    border: solid 1px gray;
+    padding: 10px;
+    box-sizing: border-box;
+    &>div:not(.surface) {
+        border-right: solid #000 2px;
+        border-bottom: solid #000 2px;
+    }
+    &>div:nth-child(9n+1){
+        border-left: solid 2px #000;
+    }
+}
+#grid>div:nth-child(1),#grid>div:nth-child(2),#grid>div:nth-child(3),#grid>div:nth-child(4),#grid>div:nth-child(5),#grid>div:nth-child(6),#grid>div:nth-child(7),#grid>div:nth-child(8),#grid>div:nth-child(9){
+    border-top: solid 2px #000;
+}
+.surface {
+    position: absolute;
+    background-image: url("./wood1.jpg");
+    background-size: cover;
+    border: solid 1px gray;
+}
+#surface2 {
+    top: -52px;
+    left: -1px;
+    width: 610px;
+    height: 50px;
+    
+    transform-origin: bottom;
+    transform: rotateX(90deg);
+}
+#surface3 {
+    top: -1px;
+    left: -52px;
+    width: 50px;
+    height: 610px;
+    
+    transform-origin: right;
+    transform: rotateY(-90deg);
+}
+#surface4 {
+    top: -1px;
+    right: -55px;
+    width: 50px;
+    height: 610px;
+    
+    transform-origin: left;
+    transform: rotateY(90deg);
+}
+#surface5 {
+    bottom: -54px;
+    left: -1px;
+    width: 610px;
+    height: 50px;
+    
+    transform-origin: top;
+    transform: rotateX(-90deg);
+}
+#surface6 {
+    left: -1px;
+    top: -1px;
+    width: 610px;
+    height: 610px;
+    transform: translateZ(-51px);
+}
+
+#shogibox {
+    width: 610px;
+    height: 610px;
+    position: relative;
+}
+
+/* 将棋駒 */
+.piece {
+    width: 80px;
+    height: 100px;
+    transform-style: preserve-3d;
+    perspective-origin: center;
+    transition: 0.05s;
+    position: absolute;
+    transform: translateZ(22px);
+    .surface {
+        box-sizing: border-box;
+        border: solid 1px rgba(0,0,0,0.5);
+        position: absolute;
+        background-image: url("./piecewood1.jpg");
+        background-size: contain;
+    }
+}
+/* 表面 */
+.surface1 {
+    height: 100px;
+    width: 80px;
+    /* background-color: burlywood; */
+    position: absolute;
+    top: 0;
+    left: 0;
+    clip-path: polygon(50% 0, 90% 15%,100% 100%, 0% 100%, 10% 15%);
+    span {
+        display: block;
+        padding: 15% 24% 5%;
+        font-size: 38px;
+        font-family: "Sawarabi Mincho",serif;
+        font-weight: bold;
+        line-height: 1;
+        text-align: center;
+    }
+}
+/* 右斜面 */
+.surface2 {
+    top: 1px;
+    left: 41px;
+    width: 35.3px;
+    height: 20px;
+    /* background-color: red; */
+    transform-origin: left top;
+    transform: rotateX(-90deg) rotateY(-24.2deg);
+}
+/* 右面 */
+.surface3 {
+    bottom: -2px;
+    right: 8px;
+    width: 20px;
+    height: 85.4px;
+    /* background-color: blue; */
+    transform-origin: right top;
+    transform: rotateY(-90deg) rotateX(-5.6deg);
+}
+/* 下面 */
+.surface4 {
+    bottom: 0;
+    left: 0;
+    width: 80px;
+    height: 20px;
+    /* background-color: yellow; */
+    transform-origin: bottom;
+    transform: rotateX(90deg);
+}
+/* 左面 */
+.surface5 {
+    bottom: -2px;
+    left: -1px;
+    width: 20px;
+    height: 85.4px;
+    /* background-color: green; */
+    transform-origin: right top;
+    transform: rotateY(-90deg) rotateX( 5.6deg);
+}
+
+/* 左斜面 */
+.surface6 {
+    top: 0;
+    right: 40px;
+    width: 38.3px;
+    height: 20px;
+    /* background-color: purple; */
+    transform-origin: right top;
+    transform: rotateX( -90deg) rotateY( 24.2deg);
+}
+
+/* 底面 */
+.surface7 {
+    height: 100px;
+    width: 80px;
+    /* background-color: coral; */
+    position: absolute;
+    top: 0;
+    left: 0;
+    clip-path: polygon(50% 0, 90% 15%,100% 100%, 0% 100%, 10% 15%);
+    transform: translateZ(-20px);
+}
+#target {
+    top: 15px;
+    left: 10px;
+    display: none;
+    transition: 0.05s;
+}
+#field {
+    width: 130px;
+    height: 130px;
+    /* border: solid 2px red; */
+    border-radius: 100%;
+    position: absolute;
+    transform: translateZ(10px);
+    top: 3px;
+    display: none;
+}
+#player {
+    top: 500px;
+    left: 50px;
+    display: none;
+}
+/* test */
+#status {
+    top: 0;
+    position: absolute;
+    left: 0;
+    border: solid 3px red;
+    padding: 10px;
+    display: none;
+}
+.life {
+    display: flex;
+    position: absolute;
+    padding: 10px 20px;
+    span {
+        font-size: 32px;
+        font-weight: bold;
+    }
+}
+#life {
+    top: 10px;
+    right: 10px;
+    border: dashed 3px orangered;
+    span {
+        color: orangered;
+    }
+}
+#enemylife {
+    left: 10px;
+    bottom: 10px;
+    border: dashed 3px rgb(5, 36, 5);
+    span {
+        color: rgb(6, 41, 6);
+    }
+}
+#startdiv {
+    position: absolute;
+    height: 140%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(255,255,255,0.4);
+}
+#startbtn {
+    width: auto;
+    height: 115px;
+    color: orangered;
+    font-size: 64px;
+    position: absolute;
+    top: 40%;
+    left: 36%;
+    background-color: #fff;
+    padding: 20px;
+    border: solid 3px orangered;
+    transition: 0.3s;
+    &:hover {
+        cursor: pointer;
+        opacity: 0.7;
+    }
+}
+#stopfield {
+    position: absolute;
+    bottom: -160px;
+    right: 20px;
+}
+#stop {
+    width: 150px;
+    height: 50px;
+    font-size: 24px;
+    border: solid 3px red;
+    background-color: #fff;
+    color: indianred;
+    font-weight: bold;
+    border-radius: 10px;
+}
+#startdiv label {
+    display: flex;
+    font-size: 32px;
+    position: absolute;
+    top: 22%;
+    span {
+        margin: 8px 0 0 8px;
+    }
+}
+input[type="radio"]{
+    height: 50px;
+    width: 50px;
+}
+#normallabel {
+    left: 5%;
+}
+#hardlabel {
+    right: 5%;
+}
+#debugb {
+    position: relative;
+    z-index: 1;
+}
+
+@media screen and (max-width: 480px){
+    body {
+        width: 100vw;
+        height: 100vh;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+    #wrap {
+        padding: 10px 0;
+        margin: 0 auto;
+    }
+    #grid {
+        transition: 0.3s;
+        width: 353px;
+        height: 353px;
+        display: grid;
+        grid-template-rows: 37px 37px 37px 37px 37px 37px 37px 37px 37px;
+        grid-template-columns: 37px 37px 37px 37px 37px 37px 37px 37px 37px;
+        background-image: url("./wood1.jpg");
+        border: solid 1px gray;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+    .surface {
+        box-sizing: border-box;
+    }
+    #surface2 {
+        top: -50px;
+        left: 0;
+        width: 353px;
+        height: 50px;
+        
+        transform-origin: bottom;
+        transform: rotateX(90deg);
+    }
+    #surface3 {
+        top: 0;
+        left: -50px;
+        width: 50px;
+        height: 353px;
+        
+        transform-origin: right;
+        transform: rotateY(-90deg);
+    }
+    #surface4 {
+        top: 0;
+        right: -50px;
+        width: 50px;
+        height: 353px;
+        
+        transform-origin: left;
+        transform: rotateY(90deg);
+    }
+    #surface5 {
+        bottom: -50px;
+        left: 0;
+        width: 353px;
+        height: 50px;
+        
+        transform-origin: top;
+        transform: rotateX(-90deg);
+    }
+    #surface6 {
+        left: 0;
+        top: 0;
+        
+        width: 353px;
+        height: 353px;
+        transform: translateZ(-50px);
+    }
+    
+    #shogibox {
+        width: 353px;
+        height: 353px;
+        position: relative;
+    }
+    
+    /* 将棋駒 */
+    .piece {
+        width: 40px;
+        height: 50px;
+        transform: translateZ(11px);
+    }
+    /* 表面 */
+    .surface1 {
+        height: 50px;
+        width: 40px;
+        top: 0;
+        left: 0;
+        span {
+            padding: 7px 3px;
+            font-size: 5vw;
+        }
+    }
+    /* 右斜面 */
+    .surface2 {
+        top: 1px;
+        left: 21px;
+        width: 17.7px;
+        height: 10px;
+    }
+    /* 右面 */
+    .surface3 {
+        bottom: -2px;
+        right: 8px;
+        width: 10px;
+        height: 42.7px;
+    }
+    /* 下面 */
+    .surface4 {
+        bottom: 0;
+        left: 0;
+        width: 40px;
+        height: 10px;
+    }
+    /* 左面 */
+    .surface5 {
+        bottom: -2px;
+        left: -1px;
+        width: 10px;
+        height: 42.7px;
+    }
+
+    /* 左斜面 */
+    .surface6 {
+        top: 0;
+        right: 20px;
+        width: 17.7px;
+        height: 10px;
+    }
+
+    /* 底面 */
+    .surface7 {
+        height: 50px;
+        width: 40px;
+        top: 0;
+        left: 0;
+        transform: translateZ(-10px);
+    }
+    /*  */
+    
+    #target {
+        top: 23px;
+        left: 173px;
+        .surface {
+            border-width: 1px;
+        }
+    }
+    #field {
+        width: 70px;
+        height: 70px;
+        top: 14px;
+    }
+    #player {
+        top: 318px;
+        left: 25px;
+    }
+    #status {
+        position: relative;
+    }
+    #life {
+        position: relative;
+        margin: 10px;
+        top: unset;
+        right: unset;
+    }
+    #enemylife {
+        position: relative;
+        bottom: unset;
+        left: unset;
+        width: auto;
+    }
+    #startdiv {
+        height: 100%;
+    }
+    #startbtn {
+        position: relative;
+        margin: 36vh 17vw;;
+        top: unset;
+        left: unset;
+        font-size: 17vw;
+    }
+    #stopfield {
+        bottom: unset;
+        right: unset;
+        position: relative;
+        margin-left: 53%;
+    }
+}
